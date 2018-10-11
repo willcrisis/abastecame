@@ -1,102 +1,78 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
-
+import { AsyncStorage } from 'react-native';
+import { Root, Spinner } from 'native-base';
+import { createStackNavigator } from 'react-navigation';
+import SelectVehicleScreen, { ROUTE_NAME as SELECT_VEHICLE_ROUTE } from './src/screens/SelectVehicle';
+import NewVehicleScreen, { ROUTE_NAME as NEW_VEHICLE_ROUTE } from './src/screens/NewVehicle';
+import RefuellingListScreen, { ROUTE_NAME as REFUELLING_LIST_ROUTE } from './src/screens/RefuellingList';
+import AddRefuellingScreen, { ROUTE_NAME as ADD_REFUELLING_ROUTE } from './src/screens/AddRefuelling';
 import firebase from 'react-native-firebase';
 
-export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
+const SelectVehicleStack = createStackNavigator(
+  {
+    [SELECT_VEHICLE_ROUTE]: SelectVehicleScreen,
+    [NEW_VEHICLE_ROUTE]: NewVehicleScreen,
+  },
+  {
+    initialRouteName: SELECT_VEHICLE_ROUTE,
   }
+);
+
+const RefuellingStack = createStackNavigator(
+  {
+    [REFUELLING_LIST_ROUTE]: RefuellingListScreen,
+    [ADD_REFUELLING_ROUTE]: AddRefuellingScreen,
+  },
+  {
+    initialRouteName: REFUELLING_LIST_ROUTE,
+  }
+);
+
+export default class App extends React.Component {
+  state = {
+    loading: true,
+    selectedVehicle: '',
+  };
 
   async componentDidMount() {
-    // TODO: You: Do firebase things
-    // const { user } = await firebase.auth().signInAnonymously();
-    // console.warn('User -> ', user.toJSON());
-
-    // await firebase.analytics().logEvent('foo', { bar: '123'});
+    // await AsyncStorage.removeItem('vehicleKey');
+    const selectedVehicle = await AsyncStorage.getItem('vehicleKey');
+    this.setState({
+      selectedVehicle,
+      loading: false,
+    });
   }
 
+  onSelectVehicle = (selectedVehicle) => {
+    this.setState({
+      selectedVehicle,
+    }, async () => {
+      await AsyncStorage.setItem('vehicleKey', selectedVehicle)
+    });
+  };
+
   render() {
+    const {
+      loading,
+      selectedVehicle,
+    } = this.state;
+
+    if (loading)
+      return (
+        <Spinner />
+      );
+
+    if (!selectedVehicle)
+      return (
+        <Root>
+          <SelectVehicleStack screenProps={{onSelectVehicle: this.onSelectVehicle}} />
+        </Root>
+      );
+
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <Image source={require('./assets/ReactNativeFirebase.png')} style={[styles.logo]}/>
-          <Text style={styles.welcome}>
-            Welcome to {'\n'} React Native Firebase
-          </Text>
-          <Text style={styles.instructions}>
-            To get started, edit App.js
-          </Text>
-          {Platform.OS === 'ios' ? (
-            <Text style={styles.instructions}>
-              Press Cmd+R to reload,{'\n'}
-              Cmd+D or shake for dev menu
-            </Text>
-          ) : (
-            <Text style={styles.instructions}>
-              Double tap R on your keyboard to reload,{'\n'}
-              Cmd+M or shake for dev menu
-            </Text>
-          )}
-          <View style={styles.modules}>
-            <Text style={styles.modulesHeader}>The following Firebase modules are pre-installed:</Text>
-            {firebase.admob.nativeModuleExists && <Text style={styles.module}>admob()</Text>}
-            {firebase.analytics.nativeModuleExists && <Text style={styles.module}>analytics()</Text>}
-            {firebase.auth.nativeModuleExists && <Text style={styles.module}>auth()</Text>}
-            {firebase.config.nativeModuleExists && <Text style={styles.module}>config()</Text>}
-            {firebase.crashlytics.nativeModuleExists && <Text style={styles.module}>crashlytics()</Text>}
-            {firebase.database.nativeModuleExists && <Text style={styles.module}>database()</Text>}
-            {firebase.firestore.nativeModuleExists && <Text style={styles.module}>firestore()</Text>}
-            {firebase.functions.nativeModuleExists && <Text style={styles.module}>functions()</Text>}
-            {firebase.iid.nativeModuleExists && <Text style={styles.module}>iid()</Text>}
-            {firebase.invites.nativeModuleExists && <Text style={styles.module}>invites()</Text>}
-            {firebase.links.nativeModuleExists && <Text style={styles.module}>links()</Text>}
-            {firebase.messaging.nativeModuleExists && <Text style={styles.module}>messaging()</Text>}
-            {firebase.notifications.nativeModuleExists && <Text style={styles.module}>notifications()</Text>}
-            {firebase.perf.nativeModuleExists && <Text style={styles.module}>perf()</Text>}
-            {firebase.storage.nativeModuleExists && <Text style={styles.module}>storage()</Text>}
-          </View>
-        </View>
-      </ScrollView>
+      <Root>
+        <RefuellingStack screenProps={{vehicleKey: selectedVehicle}} />
+      </Root>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  logo: {
-    height: 120,
-    marginBottom: 16,
-    marginTop: 64,
-    padding: 10,
-    width: 135,
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  modules: {
-    margin: 20,
-  },
-  modulesHeader: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  module: {
-    fontSize: 14,
-    marginTop: 4,
-    textAlign: 'center',
-  }
-});
