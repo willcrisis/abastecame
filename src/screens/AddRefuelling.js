@@ -19,6 +19,7 @@ import {
 import firebase from 'react-native-firebase';
 import NavigateableComponent from './NavigateableComponent';
 import styles from '../styles/styles';
+import { NumberInput } from '../common';
 
 export const ROUTE_NAME = 'AddRefuelling';
 
@@ -40,7 +41,7 @@ export default class NewVehicle extends NavigateableComponent {
         fuel: 'diesel',
         date: new Date(),
         fullTank: false,
-        odometer: '',
+        odometer: '0',
         price: '0',
         liters: '0',
         total: '0',
@@ -109,14 +110,11 @@ export default class NewVehicle extends NavigateableComponent {
                 <Text>Full Tank</Text>
               </Body>
             </ListItem>
-            <Item floatingLabel>
-              <Label>Odometer</Label>
-              <Input
-                onChangeText={value => this.updateField('odometer', value)}
-                value={refuelling.odometer}
-                keyboardType="number-pad"
-              />
-            </Item>
+            <NumberInput
+              onChangeText={value => this.updateField('odometer', value)}
+              value={refuelling.odometer}
+              label="Odometer"
+            />
             <Item floatingLabel>
               <Label>Fuel Price</Label>
               <Input
