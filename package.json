@@ -26,6 +26,7 @@
     "react": "16.5.0",
     "react-native": "0.57.1",
     "react-native-firebase": "^5.0.0",
+    "react-native-masked-text": "^1.9.2",
     "react-navigation": "^2.18.0"
   }
 }
