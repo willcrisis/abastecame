@@ -5,7 +5,6 @@ import {
   Text,
   Form,
   Item,
-  Input,
   Label,
   Button,
   Toast,
@@ -14,13 +13,12 @@ import {
   ListItem,
   CheckBox,
   Body,
-  Textarea,
 } from 'native-base';
 import { TextInputMask } from 'react-native-masked-text';
 import firebase from 'react-native-firebase';
 import NavigateableComponent from './NavigateableComponent';
 import styles from '../styles/styles';
-import { NumberInput } from '../common';
+import { NumberInput, MoneyInput, DecimalInput, TextArea } from '../common';
 
 export const ROUTE_NAME = 'AddRefuelling';
 
@@ -111,47 +109,32 @@ export default class AddRefuelling extends NavigateableComponent {
                 <Text>Full Tank</Text>
               </Body>
             </ListItem>
-            <Item>
-              <Label>Odometer</Label>
-              <TextInputMask
-                type="only-numbers"
-                onChangeText={value => this.updateField('odometer', value)}
-                value={refuelling.odometer}
-              />
-            </Item>
-            <Item>
-              <Label>Fuel Price</Label>
-              <TextInputMask
-                type="money"
-                onChangeText={value => this.updateField('price', value)}
-                value={refuelling.price}
-              />
-            </Item>
-
-            <Item floatingLabel>
-              <Label>Liters</Label>
-              <Input
-                onChangeText={value => this.updateField('liters', value)}
-                value={refuelling.liters}
-                keyboardType="decimal-pad"
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>Total Value</Label>
-              <Input
-                onChangeText={value => this.updateField('total', value)}
-                value={refuelling.total}
-                keyboardType="decimal-pad"
-              />
-            </Item>
-            <Item>
-              <Textarea
-                rowSpan={5}
-                placeholder="Notes"
-                onChangeText={value => this.updateField('notes', value)}
-                value={refuelling.notes}
-              />
-            </Item>
+            <NumberInput
+              onChangeText={value => this.updateField('odometer', value)}
+              value={refuelling.odometer}
+              label="Odometer"
+            />
+            <DecimalInput
+              onChangeText={value => this.updateField('price', value)}
+              value={refuelling.price}
+              label="Fuel Price"
+              precision={3}
+            />
+            <DecimalInput
+              onChangeText={value => this.updateField('liters', value)}
+              value={refuelling.liters}
+              label="Liters"
+            />
+            <DecimalInput
+              onChangeText={value => this.updateField('total', value)}
+              value={refuelling.total}
+              label="Total Value"
+            />
+            <TextArea
+              onChangeText={value => this.updateField('notes', value)}
+              value={refuelling.notes}
+              label="Notes"
+            />
           </Form>
           <Button onPress={this.save} full>
             <Text>
