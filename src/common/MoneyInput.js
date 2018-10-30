@@ -1,11 +1,11 @@
 import React from 'react';
 import TextInput from './TextInput';
 
-const NumberInput = (props) => (
+const MoneyInput = (props) => (
   <TextInput
     {...props}
-    mask="only-numbers"
+    mask="money"
   />
 );
 
-export default NumberInput;
+export default MoneyInput;
