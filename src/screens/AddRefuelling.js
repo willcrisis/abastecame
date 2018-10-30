@@ -16,6 +16,7 @@ import {
   Body,
   Textarea,
 } from 'native-base';
+import { TextInputMask } from 'react-native-masked-text';
 import firebase from 'react-native-firebase';
 import NavigateableComponent from './NavigateableComponent';
 import styles from '../styles/styles';
@@ -23,7 +24,7 @@ import { NumberInput } from '../common';
 
 export const ROUTE_NAME = 'AddRefuelling';
 
-export default class NewVehicle extends NavigateableComponent {
+export default class AddRefuelling extends NavigateableComponent {
   static navigationOptions = {
     title: 'New Refuelling'
   };
@@ -110,19 +111,23 @@ export default class NewVehicle extends NavigateableComponent {
                 <Text>Full Tank</Text>
               </Body>
             </ListItem>
-            <NumberInput
-              onChangeText={value => this.updateField('odometer', value)}
-              value={refuelling.odometer}
-              label="Odometer"
-            />
-            <Item floatingLabel>
-              <Label>Fuel Price</Label>
-              <Input
-                onChangeText={value => this.updateField('price', value)}
-                value={refuelling.price}
-                keyboardType="decimal-pad"
+            <Item>
+              <Label>Odometer</Label>
+              <TextInputMask
+                type="only-numbers"
+                onChangeText={value => this.updateField('odometer', value)}
+                value={refuelling.odometer}
               />
             </Item>
+            <Item>
+              <Label>Fuel Price</Label>
+              <TextInputMask
+                type="money"
+                onChangeText={value => this.updateField('price', value)}
+                value={refuelling.price}
+              />
+            </Item>
+
             <Item floatingLabel>
               <Label>Liters</Label>
               <Input
