@@ -14,11 +14,10 @@ import {
   CheckBox,
   Body,
 } from 'native-base';
-import { TextInputMask } from 'react-native-masked-text';
 import firebase from 'react-native-firebase';
 import NavigateableComponent from './NavigateableComponent';
 import styles from '../styles/styles';
-import { NumberInput, MoneyInput, DecimalInput, TextArea } from '../common';
+import { NumberInput, DecimalInput, TextArea } from '../common';
 
 export const ROUTE_NAME = 'AddRefuelling';
 
