@@ -8,7 +8,6 @@ import {
   Label,
   Button,
   Toast,
-  DatePicker,
   Picker,
   ListItem,
   CheckBox,
@@ -17,7 +16,12 @@ import {
 import firebase from 'react-native-firebase';
 import NavigateableComponent from './NavigateableComponent';
 import styles from '../styles/styles';
-import { NumberInput, DecimalInput, TextArea } from '../common';
+import {
+  NumberInput,
+  DecimalInput,
+  TextArea,
+  DateInput,
+} from '../common';
 
 export const ROUTE_NAME = 'AddRefuelling';
 
@@ -48,7 +52,7 @@ export default class AddRefuelling extends NavigateableComponent {
     };
   }
 
-  updateField = (field, value) => this.setState(({ refuelling }) => ({
+  updateField = field => value => this.setState(({ refuelling }) => ({
     refuelling: {
       ...refuelling,
       [field]: value,
@@ -78,18 +82,16 @@ export default class AddRefuelling extends NavigateableComponent {
       <Container>
         <Content padder>
           <Form style={styles.form}>
-            <Item>
-              <Label>Date</Label>
-              <DatePicker
-                defaultDate={refuelling.date}
-                onDateChange={value => this.updateField('date', value)}
-              />
-            </Item>
+            <DateInput
+              value={refuelling.date}
+              label="Date"
+              onDateChange={this.updateField('date')}
+            />
             <Item>
               <Label>Fuel</Label>
               <Picker
                 selectedValue={refuelling.fuel}
-                onValueChange={value => this.updateField('fuel', value)}
+                onValueChange={this.updateField('fuel')}
               >
                 <Picker.Item label="Diesel" value="diesel" />
                 <Picker.Item label="Ethanol" value="ethanol" />
@@ -102,35 +104,35 @@ export default class AddRefuelling extends NavigateableComponent {
             <ListItem>
               <CheckBox
                 checked={refuelling.fullTank}
-                onPress={() => this.updateField('fullTank', !refuelling.fullTank)}
+                onPress={() => this.updateField('fullTank')(!refuelling.fullTank)}
               />
               <Body>
                 <Text>Full Tank</Text>
               </Body>
             </ListItem>
             <NumberInput
-              onChangeText={value => this.updateField('odometer', value)}
+              onChangeText={this.updateField('odometer')}
               value={refuelling.odometer}
               label="Odometer"
             />
             <DecimalInput
-              onChangeText={value => this.updateField('price', value)}
+              onChangeText={this.updateField('price')}
               value={refuelling.price}
               label="Fuel Price"
               precision={3}
             />
             <DecimalInput
-              onChangeText={value => this.updateField('liters', value)}
+              onChangeText={this.updateField('liters')}
               value={refuelling.liters}
               label="Liters"
             />
             <DecimalInput
-              onChangeText={value => this.updateField('total', value)}
+              onChangeText={this.updateField('total')}
               value={refuelling.total}
               label="Total Value"
             />
             <TextArea
-              onChangeText={value => this.updateField('notes', value)}
+              onChangeText={this.updateField('notes')}
               value={refuelling.notes}
               label="Notes"
             />

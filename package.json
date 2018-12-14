@@ -23,10 +23,13 @@
   },
   "dependencies": {
     "native-base": "^2.8.1",
+    "prop-types": "^15.6.2",
     "react": "16.5.0",
     "react-native": "0.57.1",
     "react-native-firebase": "^5.1.1",
+    "react-native-locale": "^0.0.19",
     "react-native-masked-text": "^1.9.2",
+    "react-native-modal-datetime-picker": "^6.0.0",
     "react-navigation": "^2.18.0"
   }
 }
