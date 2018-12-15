@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import format from './dateFns/format';
 
 export default class DateInput extends Component {
   state = {
@@ -16,7 +17,7 @@ export default class DateInput extends Component {
   render() {
     const { isModalOpen } = this.state;
     const { label, value } = this.props;
-    const displayDate = value ? value.toDateString() : '';
+    const displayDate = value ? format(value) : '';
     return (
       <View>
         <Text>{label}</Text>
