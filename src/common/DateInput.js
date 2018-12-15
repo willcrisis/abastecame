@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import TextInput from './TextInput';
 
 export default class DateInput extends Component {
   state = {
