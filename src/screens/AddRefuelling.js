@@ -4,7 +4,7 @@ import {
   Content,
   Text,
   Form,
-  Label,
+  Spinner,
   Button,
   Toast,
   ListItem,
@@ -21,6 +21,7 @@ import {
   DateInput,
   Picker,
 } from '../common';
+import { language } from '../config'
 
 export const ROUTE_NAME = 'AddRefuelling';
 
@@ -36,8 +37,11 @@ export default class AddRefuelling extends NavigateableComponent {
 
     const vehicleKey = this.getParam('vehicleKey');
     this.refuellingsRef = this.firestore.collection(`vehicles/${vehicleKey}/refuellings`);
+    this.fuelsRef = this.firestore.collection('fuels');
 
     this.state = {
+      fuels: [],
+      loading: true,
       refuelling: {
         fuel: 'diesel',
         date: new Date(),
@@ -49,6 +53,25 @@ export default class AddRefuelling extends NavigateableComponent {
         notes: '',
       }
     };
+  }
+
+  componentDidMount() {
+    this.unsubscribeFuels = this.fuelsRef.onSnapshot(snapshot => {
+      const fuels = [];
+
+      snapshot.forEach(fuelRef => {
+        const data = fuelRef.data();
+        fuels.push({
+          label: data[language] || data.en,
+          key: fuelRef.id,
+        })
+      })
+
+      this.setState({
+        fuels,
+        loading: false,
+      })
+    }, err => console.warn(err));
   }
 
   updateField = field => value => this.setState(({ refuelling }) => ({
@@ -76,7 +99,14 @@ export default class AddRefuelling extends NavigateableComponent {
   };
 
   render() {
-    const { refuelling } = this.state;
+    const { refuelling, fuels, loading } = this.state;
+
+    if (loading) {
+      return (
+        <Spinner />
+      )
+    }
+
     return (
       <Container>
         <Content padder>
@@ -90,14 +120,7 @@ export default class AddRefuelling extends NavigateableComponent {
               label="Fuel"
               selectedValue={refuelling.fuel}
               onValueChange={this.updateField('fuel')}
-              list={[
-                {label: 'Diesel', value: 'diesel'},
-                {label: 'Ethanol', value: 'ethanol'},
-                {label: 'Premium Ethanol', value: 'premiumEthanol'},
-                {label: 'Gasoline', value: 'gasoline'},
-                {label: 'Premium Gasoline', value: 'premiumGasoline'},
-                {label: 'Compressed Natural Gas', value: 'gnv'},
-              ]}
+              data={fuels}
             />
             <ListItem>
               <CheckBox
