@@ -4,11 +4,9 @@ import {
   Content,
   Text,
   Form,
-  Item,
   Label,
   Button,
   Toast,
-  Picker,
   ListItem,
   CheckBox,
   Body,
@@ -21,6 +19,7 @@ import {
   DecimalInput,
   TextArea,
   DateInput,
+  Picker,
 } from '../common';
 
 export const ROUTE_NAME = 'AddRefuelling';
@@ -87,20 +86,19 @@ export default class AddRefuelling extends NavigateableComponent {
               label="Date"
               onDateChange={this.updateField('date')}
             />
-            <Item>
-              <Label>Fuel</Label>
-              <Picker
-                selectedValue={refuelling.fuel}
-                onValueChange={this.updateField('fuel')}
-              >
-                <Picker.Item label="Diesel" value="diesel" />
-                <Picker.Item label="Ethanol" value="ethanol" />
-                <Picker.Item label="Premium Ethanol" value="premiumEthanol" />
-                <Picker.Item label="Gasoline" value="gasoline" />
-                <Picker.Item label="Premium Gasoline" value="premiumGasoline" />
-                <Picker.Item label="Compressed Natural Gas" value="gnv" />
-              </Picker>
-            </Item>
+            <Picker
+              label="Fuel"
+              selectedValue={refuelling.fuel}
+              onValueChange={this.updateField('fuel')}
+              list={[
+                {label: 'Diesel', value: 'diesel'},
+                {label: 'Ethanol', value: 'ethanol'},
+                {label: 'Premium Ethanol', value: 'premiumEthanol'},
+                {label: 'Gasoline', value: 'gasoline'},
+                {label: 'Premium Gasoline', value: 'premiumGasoline'},
+                {label: 'Compressed Natural Gas', value: 'gnv'},
+              ]}
+            />
             <ListItem>
               <CheckBox
                 checked={refuelling.fullTank}
