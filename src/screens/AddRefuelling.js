@@ -7,9 +7,6 @@ import {
   Spinner,
   Button,
   Toast,
-  ListItem,
-  CheckBox,
-  Body,
 } from 'native-base';
 import firebase from 'react-native-firebase';
 import NavigateableComponent from './NavigateableComponent';
@@ -20,6 +17,7 @@ import {
   TextArea,
   DateInput,
   Picker,
+  Switch,
 } from '../common';
 import { language } from '../config'
 
@@ -74,6 +72,10 @@ export default class AddRefuelling extends NavigateableComponent {
     }, err => console.warn(err));
   }
 
+  componentWillUnmount() {
+    this.unsubscribeFuels();
+  }
+
   updateField = field => value => this.setState(({ refuelling }) => ({
     refuelling: {
       ...refuelling,
@@ -122,15 +124,11 @@ export default class AddRefuelling extends NavigateableComponent {
               onValueChange={this.updateField('fuel')}
               data={fuels}
             />
-            <ListItem>
-              <CheckBox
-                checked={refuelling.fullTank}
-                onPress={() => this.updateField('fullTank')(!refuelling.fullTank)}
-              />
-              <Body>
-                <Text>Full Tank</Text>
-              </Body>
-            </ListItem>
+            <Switch
+              label="Full Tank"
+              value={refuelling.fullTank}
+              onValueChange={() => this.updateField('fullTank')(!refuelling.fullTank)}
+            />
             <NumberInput
               onChangeText={this.updateField('odometer')}
               value={refuelling.odometer}

@@ -5,6 +5,7 @@ import DecimalInput from './DecimalInput';
 import TextArea from './TextArea';
 import DateInput from './DateInput';
 import Picker from './Picker';
+import Switch from './Switch';
 
 export {
   NumberInput,
@@ -14,4 +15,5 @@ export {
   TextArea,
   DateInput,
   Picker,
+  Switch,
 }
