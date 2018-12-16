@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
+import textInputStyle from './TextInput.styles';
+import labelStyle from './Label.styles';
 
 class Picker extends Component {
   state = {
@@ -21,16 +23,16 @@ class Picker extends Component {
   }
 
   render() {
-    const { label, data, selectedValue } = this.props;
+    const { label, data } = this.props;
     const { selectedItem } = this.state;
     return (
       <View>
-        <Text>{label}</Text>
+        <Text style={labelStyle}>{label}</Text>
         <ModalSelector
           data={data}
           onChange={this.onChange}
         >
-          <Text>{selectedItem.label}</Text>
+          <Text style={textInputStyle}>{selectedItem.label}</Text>
         </ModalSelector>
       </View>
     )

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import format from './dateFns/format';
+import textInputStyle from './TextInput.styles';
+import labelStyle from './Label.styles';
 
 export default class DateInput extends Component {
   state = {
@@ -20,9 +22,9 @@ export default class DateInput extends Component {
     const displayDate = value ? format(value) : '';
     return (
       <View>
-        <Text>{label}</Text>
+        <Text style={labelStyle}>{label}</Text>
         <TouchableOpacity onPress={() => this.toggleModal(true)}>
-          <Text>{displayDate}</Text>
+          <Text style={textInputStyle}>{displayDate}</Text>
         </TouchableOpacity>
         <DateTimePicker
           isVisible={isModalOpen}

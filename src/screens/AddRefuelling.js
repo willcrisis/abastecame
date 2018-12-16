@@ -18,6 +18,7 @@ import {
   DateInput,
   Picker,
   Switch,
+  TextInput,
 } from '../common';
 import { language } from '../config'
 
@@ -43,7 +44,7 @@ export default class AddRefuelling extends NavigateableComponent {
       refuelling: {
         fuel: 'diesel',
         date: new Date(),
-        fullTank: false,
+        fullTank: true,
         odometer: '0',
         price: '0',
         liters: '0',
@@ -128,6 +129,11 @@ export default class AddRefuelling extends NavigateableComponent {
               label="Full Tank"
               value={refuelling.fullTank}
               onValueChange={() => this.updateField('fullTank')(!refuelling.fullTank)}
+            />
+            <TextInput
+              onChangeText={this.updateField('liters')}
+              value={refuelling.liters}
+              label="Liters"
             />
             <NumberInput
               onChangeText={this.updateField('odometer')}
