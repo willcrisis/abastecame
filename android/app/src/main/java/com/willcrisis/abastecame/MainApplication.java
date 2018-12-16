@@ -1,4 +1,4 @@
-package com.willcrisiscom.abastecame;
+package com.willcrisis.abastecame;
 
 import android.annotation.SuppressLint;
 import android.app.Application;

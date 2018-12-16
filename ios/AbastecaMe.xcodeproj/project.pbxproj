@@ -1408,7 +1408,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.willcrisiscom.abastecame;
+				PRODUCT_BUNDLE_IDENTIFIER = com.willcrisis.abastecame;
 				PRODUCT_NAME = AbastecaMe;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1432,7 +1432,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.willcrisiscom.abastecame;
+				PRODUCT_BUNDLE_IDENTIFIER = com.willcrisis.abastecame;
 				PRODUCT_NAME = AbastecaMe;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

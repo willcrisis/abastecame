@@ -1,4 +1,4 @@
-package com.willcrisiscom.abastecame;
+package com.willcrisis.abastecame;
 
 import com.facebook.react.ReactActivity;
 
