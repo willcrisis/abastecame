@@ -12,7 +12,6 @@ import firebase from 'react-native-firebase';
 import NavigateableComponent from './NavigateableComponent';
 import styles from '../styles/styles';
 import {
-  NumberInput,
   DecimalInput,
   TextArea,
   DateInput,
@@ -20,6 +19,7 @@ import {
   Switch,
 } from '../common';
 import { language } from '../config'
+import required from '../common/validation/required';
 
 export const ROUTE_NAME = 'AddRefuelling';
 
@@ -44,10 +44,10 @@ export default class AddRefuelling extends NavigateableComponent {
         fuel: 'diesel',
         date: new Date(),
         fullTank: true,
-        odometer: '0',
-        price: '0',
-        liters: '0',
-        total: '0',
+        odometer: '',
+        price: '',
+        liters: '',
+        total: '',
         notes: '',
       }
     };
@@ -83,21 +83,45 @@ export default class AddRefuelling extends NavigateableComponent {
     }
   }));
 
+  validateRefuelling = refuelling => {
+    const { isValid, failures } = required(refuelling, [
+      'date',
+      'fuel',
+      'odometer',
+      'price',
+      'liters',
+      'total',
+    ]);
+
+    if (!isValid) {
+      Toast.show({
+        text: `Please fill the following fields: ${failures.join(', ')}`,
+        duration: 5000,
+      });
+    }
+    return isValid;
+  }
+
+  processRefuelling = refuelling => ({
+    ...refuelling,
+    odometer: this.odometerRef.getRawValue(),
+    price: this.priceRef.getRawValue(),
+    liters: this.litersRef.getRawValue(),
+    total: this.totalRef.getRawValue(),
+  });
+
   save = async () => {
     const { refuelling } = this.state;
-    console.warn(refuelling);
-    // if (refuelling) { // TODO validate data
-    //   try {
-    //     await this.refuellingsRef.add({
-    //       ...refuelling,
-    //     });
-    //     this.goBack();
-    //   } catch (err) {
-    //     console.warn(err);
-    //   }
-    // } else {
-    //   Toast.show({text: 'Please fill all fields.'})
-    // }
+    if (!this.validateRefuelling(refuelling)) return;
+
+    try {
+      await this.refuellingsRef.add({
+        ...this.processRefuelling(refuelling),
+      });
+      this.goBack();
+    } catch (err) {
+      console.warn(err);
+    }
   };
 
   render() {
@@ -129,26 +153,32 @@ export default class AddRefuelling extends NavigateableComponent {
               value={refuelling.fullTank}
               onValueChange={() => this.updateField('fullTank')(!refuelling.fullTank)}
             />
-            <NumberInput
+            <DecimalInput
               onChangeText={this.updateField('odometer')}
               value={refuelling.odometer}
               label="Odometer"
+              precision={0}
+              delimiter=" "
+              innerRef={ref => this.odometerRef = ref}
             />
             <DecimalInput
               onChangeText={this.updateField('price')}
               value={refuelling.price}
               label="Fuel Price"
               precision={3}
+              innerRef={ref => this.priceRef = ref}
             />
             <DecimalInput
               onChangeText={this.updateField('liters')}
               value={refuelling.liters}
               label="Liters"
+              innerRef={ref => this.litersRef = ref}
             />
             <DecimalInput
               onChangeText={this.updateField('total')}
               value={refuelling.total}
               label="Total Value"
+              innerRef={ref => this.totalRef = ref}
             />
             <TextArea
               onChangeText={this.updateField('notes')}

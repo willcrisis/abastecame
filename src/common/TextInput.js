@@ -4,7 +4,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import textInputStyle from './TextInput.styles';
 import labelStyle from './Label.styles';
 
-const TextInput = ({ label, mask, ...rest }) => (
+const TextInput = ({ label, mask, innerRef, ...rest }) => (
   <View>
     <Text style={labelStyle}>{label}</Text>
     {mask
@@ -13,6 +13,7 @@ const TextInput = ({ label, mask, ...rest }) => (
         {...rest}
         style={textInputStyle}
         underlineColorAndroid="transparent"
+        ref={innerRef}
       />
       : <NativeTextInput
         {...rest}
@@ -21,6 +22,6 @@ const TextInput = ({ label, mask, ...rest }) => (
       />
     }
   </View>
-)
+);
 
 export default TextInput;
