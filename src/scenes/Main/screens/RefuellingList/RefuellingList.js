@@ -9,7 +9,6 @@ import {
   Fab,
   Icon,
 } from 'native-base';
-import firebase from 'react-native-firebase';
 import NavigateableComponent from '../../../components/NavigateableComponent';
 import { ROUTE_NAME as ADD_REFUELLING_ROUTE } from '../AddRefuelling/AddRefuelling';
 
@@ -20,51 +19,13 @@ export default class RefuellingList extends NavigateableComponent {
     title: 'Refuellings'
   };
 
-  constructor(props) {
-    super(props);
-    const { vehicleKey } = this.props.screenProps;
-    this.refuellingsRef = firebase
-      .firestore()
-      .collection(`vehicles/${vehicleKey}/refuellings`);
-
-    this.state = {
-      refuellings: [],
-      loading: true,
-    }
-  }
-
   onAddRefuelling = () => {
     const { vehicleKey } = this.props.screenProps;
     this.goTo(ADD_REFUELLING_ROUTE, { vehicleKey });
   }
 
-  componentDidMount() {
-      this.unsubscribeRefuellings = this.refuellingsRef.onSnapshot(snapshot => {
-        const refuellings = [];
-
-        snapshot.forEach(refuellingRef => {
-          refuellings.push({
-            ...refuellingRef.data(),
-            id: refuellingRef.id,
-          })
-        })
-
-        this.setState({
-          refuellings,
-          loading: false,
-        })
-      }, err => console.warn(err));
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeRefuellings();
-  }
-
   render() {
-    const {
-      loading,
-      refuellings,
-    } = this.state;
+    const { refuellings, loading } = this.props.screenProps;
 
     if (loading) {
       return (
