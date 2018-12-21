@@ -1,7 +1,8 @@
 import { Component } from 'react';
+import NavigationService from '../../services/Navigation'
 
 export default class NavigateableComponent extends Component {
-  goTo = (route, params) => this.props.navigation.navigate(route, params);
-  goBack = () => this.props.navigation.goBack();
+  goTo = (route, params) => NavigationService.navigate(route, params);
+  goBack = () => NavigationService.goBack();
   getParam = paramName => this.props.navigation.getParam(paramName);
 }

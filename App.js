@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { Root, Spinner } from 'native-base';
 
-import RefuellingStack from './src/scenes/Main';
+import MainScene from './src/scenes/Main';
 import SelectVehicleStack from './src/scenes/VehicleSelection';
 
 export default class App extends React.Component {
@@ -48,7 +48,7 @@ export default class App extends React.Component {
 
     return (
       <Root>
-        <RefuellingStack screenProps={{vehicleKey: selectedVehicle}} />
+        <MainScene vehicleKey={selectedVehicle} />
       </Root>
     );
   }

@@ -9,31 +9,13 @@ import {
   Fab,
   Icon,
 } from 'native-base';
-import NavigateableComponent from '../../../components/NavigateableComponent';
-import { ROUTE_NAME as ADD_REFUELLING_ROUTE } from '../AddRefuelling/AddRefuelling';
 
 export const ROUTE_NAME = 'RefuellingList';
 
-export default class RefuellingList extends NavigateableComponent {
-  static navigationOptions = {
-    title: 'Refuellings'
-  };
-
-  onAddRefuelling = () => {
-    const { vehicleKey } = this.props.screenProps;
-    this.goTo(ADD_REFUELLING_ROUTE, { vehicleKey });
-  }
-
-  render() {
-    const { refuellings, loading } = this.props.screenProps;
-
-    if (loading) {
-      return (
-        <Spinner />
-      )
-    }
-
-    return (
+const RefuellingList = ({ screenProps: { refuellings, loading, goToAddRefuelling } }) => (
+  loading ? (
+    <Spinner />
+  ) : (
       <Container>
         <Content>
           {(!refuellings.length) && (
@@ -49,10 +31,15 @@ export default class RefuellingList extends NavigateableComponent {
             </List>
           )}
         </Content>
-        <Fab onPress={this.onAddRefuelling}>
+        <Fab onPress={goToAddRefuelling}>
           <Icon name="add" />
         </Fab>
       </Container>
     )
-  }
-}
+);
+
+RefuellingList.navigationOptions = {
+  title: 'Refuellings'
+};
+
+export default RefuellingList;
