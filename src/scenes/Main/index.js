@@ -16,8 +16,6 @@ const RefuellingStack = createStackNavigator(
 );
 
 class Main extends Component {
-  static router = RefuellingStack.router;
-
   constructor(props) {
     super(props);
     const { vehicleKey } = this.props.screenProps;
@@ -58,16 +56,9 @@ class Main extends Component {
     return (
       <RefuellingStack
         screenProps={{ loading, refuellings }}
-        navigation={this.props.navigation}
       />
     );
   }
 }
 
-const MainStack = createStackNavigator({
-  Main
-}, {
-  headerMode: 'none',
-});
-
-export default MainStack;
+export default Main;
