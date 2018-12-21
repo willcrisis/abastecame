@@ -18,18 +18,13 @@ const RefuellingList = ({ screenProps: { refuellings, loading, goToAddRefuelling
   ) : (
       <Container>
         <Content>
-          {(!refuellings.length) && (
-            <Text>No refuellings found for this vehicle</Text>
-          )}
-          {refuellings.length && (
-            <List>
-              {refuellings.map(refuelling => (
-                <ListItem key={refuelling.id}>
-                  <Text>{refuelling.odometer}</Text>
-                </ListItem>
-              ))}
-            </List>
-          )}
+          <List>
+            {refuellings.map(refuelling => (
+              <ListItem key={refuelling.id}>
+                <Text>{refuelling.odometer}</Text>
+              </ListItem>
+            ))}
+          </List>
         </Content>
         <Fab onPress={goToAddRefuelling}>
           <Icon name="add" />
