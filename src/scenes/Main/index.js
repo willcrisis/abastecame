@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
 import firebase from 'react-native-firebase';
+import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import NavigationService from '../../services/Navigation';
-import { language } from '../../config'
+import { language } from '../../config';
 
 import RefuellingListScreen, { ROUTE_NAME as REFUELLING_LIST_ROUTE } from './screens/RefuellingList/RefuellingList';
 import AddRefuellingScreen, { ROUTE_NAME as ADD_REFUELLING_ROUTE } from './screens/AddRefuelling/AddRefuelling';
@@ -47,6 +48,12 @@ class Main extends Component {
     }, err => console.warn(err));
 
     this.unsubscribeRefuellings = this.refuellingsRef.onSnapshot(snapshot => {
+      if (snapshot.empty) {
+        this.setState({
+          loadingRefuellings: false,
+        });
+        return;
+      }
       const refuellings = [];
 
       snapshot.forEach(refuellingRef => {
@@ -102,9 +109,30 @@ class Main extends Component {
   }
 
   saveRefuelling = async (refuelling) => {
-    //TODO do refuelling calculations here
     await this.refuellingsRef.add(refuelling);
+
+    const updatedPreviousRefuelling = this.calculatePreviousRefuelling(refuelling);
+    if (updatedPreviousRefuelling) {
+      await this.refuellingsRef.doc(updatedPreviousRefuelling.id).update(updatedPreviousRefuelling)
+    }
+
     this.goTo(REFUELLING_LIST_ROUTE);
+  }
+
+  calculatePreviousRefuelling = (refuelling) => {
+    const { refuellings } = this.state;
+    const previousRefuelling = refuellings.find(({ odometer }) => odometer < refuelling.odometer);
+    if (!previousRefuelling) return null;
+
+    const distance = refuelling.odometer - previousRefuelling.odometer;
+    const days = differenceInCalendarDays(refuelling.date, previousRefuelling.date);
+    return {
+      ...previousRefuelling,
+      distance,
+      dailyDistance: distance / days,
+      distancePerLiter: distance / refuelling.liters,
+      pricePerDistance: previousRefuelling.total / distance,
+    };
   }
 
   render() {
