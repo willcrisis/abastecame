@@ -18,6 +18,15 @@ const RefuellingStack = createStackNavigator(
 );
 
 class Main extends Component {
+  state = {
+    vehicle: {},
+    refuellings: [],
+    fuels: [],
+    loadingVehicle: true,
+    loadingRefuellings: true,
+    loadingFuels: true,
+  }
+
   constructor(props) {
     super(props);
     const { vehicleKey } = this.props;
@@ -27,20 +36,14 @@ class Main extends Component {
     this.vehicleRef = firestore.doc(`vehicles/${vehicleKey}`);
     this.refuellingsRef = this.vehicleRef.collection('refuellings');
     this.fuelsRef = firestore.collection('fuels');
-
-    this.state = {
-      vehicle: {},
-      refuellings: [],
-      fuels: [],
-      loading: true,
-    }
   }
 
   componentDidMount() {
     this.unsubscribeVehicle = this.vehicleRef.onSnapshot(snapshot => {
       this.setState({
         vehicle: snapshot.data(),
-      })
+        loadingVehicle: false,
+      });
     }, err => console.warn(err));
 
     this.unsubscribeRefuellings = this.refuellingsRef.onSnapshot(snapshot => {
@@ -50,13 +53,13 @@ class Main extends Component {
         refuellings.push({
           ...refuellingRef.data(),
           id: refuellingRef.id,
-        })
-      })
+        });
+      });
 
       this.setState({
-        refuellings,
-        loading: false,
-      })
+        refuellings: [...refuellings].sort((a, b) => b.odometer - a.odometer),
+        loadingRefuellings: false,
+      });
     }, err => console.warn(err));
 
     this.unsubscribeFuels = this.fuelsRef.onSnapshot(snapshot => {
@@ -67,12 +70,13 @@ class Main extends Component {
         fuels.push({
           label: data[language] || data.en,
           key: fuelRef.id,
-        })
-      })
+        });
+      });
 
       this.setState({
         fuels,
-      })
+        loadingFuels: false,
+      });
     }, err => console.warn(err));
   }
 
@@ -83,9 +87,13 @@ class Main extends Component {
   }
 
   goTo = (routeName) => {
+    const { fuels } = this.state;
     switch (routeName) {
       case ADD_REFUELLING_ROUTE:
-        return NavigationService.navigate(routeName);
+        return NavigationService.navigate(routeName, {
+          fuels,
+          saveRefuelling: this.saveRefuelling,
+        });
       case REFUELLING_LIST_ROUTE:
         return NavigationService.navigate(routeName);
       default:
@@ -94,21 +102,20 @@ class Main extends Component {
   }
 
   saveRefuelling = async (refuelling) => {
+    //TODO do refuelling calculations here
     await this.refuellingsRef.add(refuelling);
     this.goTo(REFUELLING_LIST_ROUTE);
   }
 
   render() {
-    const { loading, refuellings, fuels } = this.state;
+    const { loadingRefuellings, loadingVehicle, loadingFuels, refuellings } = this.state;
     return (
       <RefuellingStack
         ref={navigatorRef => NavigationService.setTopLevelNavigator(navigatorRef)}
         screenProps={{
-          loading,
+          loading: loadingRefuellings || loadingVehicle || loadingFuels,
           refuellings,
-          fuels,
           goToAddRefuelling: () => this.goTo(ADD_REFUELLING_ROUTE),
-          saveRefuelling: this.saveRefuelling,
         }}
       />
     );

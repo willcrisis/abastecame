@@ -21,11 +21,9 @@ const AddRefuellingForm = ({
   updateField,
   save,
   setRef,
-  screenProps: { fuels, loading }
+  fuels,
 }) => (
-  loading ? (
-    <Spinner />
-  ) : (
+    (
       <Container>
         <Content padder>
           <Form style={styles.form}>
@@ -86,6 +84,6 @@ const AddRefuellingForm = ({
         </Content>
       </Container>
     )
-);
+  );
 
 export default AddRefuellingForm;

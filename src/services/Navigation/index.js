@@ -21,12 +21,6 @@ function goBack() {
   );
 }
 
-function getParam(param) {
-  _navigator.dispatch(
-    NavigationActions.getParam(param),
-  );
-}
-
 // add other navigation functions that you need and export them
 
 export default {

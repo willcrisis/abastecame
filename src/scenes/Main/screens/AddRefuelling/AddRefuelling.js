@@ -1,32 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Toast } from 'native-base';
 import AddRefuellingForm from './AddRefuellingForm';
-import NavigateableComponent from '../../../components/NavigateableComponent';
 import required from '../../../../common/validation/required';
 
 export const ROUTE_NAME = 'AddRefuelling';
 
-export default class AddRefuelling extends NavigateableComponent {
+export default class AddRefuelling extends Component {
   static navigationOptions = {
     title: 'New Refuelling'
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      refuelling: {
-        fuel: 'diesel',
-        date: new Date(),
-        fullTank: true,
-        odometer: '',
-        price: '',
-        liters: '',
-        total: '',
-        notes: '',
-      }
-    };
-  }
+  state = {
+    refuelling: {
+      fuel: 'diesel',
+      date: new Date(),
+      fullTank: true,
+      odometer: '',
+      price: '',
+      liters: '',
+      total: '',
+      notes: '',
+    },
+  };
 
   updateField = field => value => this.setState(({ refuelling }) => ({
     refuelling: {
@@ -65,7 +60,8 @@ export default class AddRefuelling extends NavigateableComponent {
   save = async () => {
     const { refuelling } = this.state;
     if (!this.validateRefuelling(refuelling)) return;
-    this.props.screenProps.saveRefuelling(this.processRefuelling(refuelling));
+    const saveRefuelling = this.props.navigation.getParam('saveRefuelling');
+    saveRefuelling(this.processRefuelling(refuelling));
   };
 
   setRef = (refName, ref) => {
@@ -74,10 +70,12 @@ export default class AddRefuelling extends NavigateableComponent {
 
   render() {
     const { refuelling } = this.state;
+    const fuels = this.props.navigation.getParam('fuels');
 
     return (
       <AddRefuellingForm
         {...this.props}
+        fuels={fuels}
         updateField={this.updateField}
         refuelling={refuelling}
         save={this.save}
