@@ -1,32 +1,9 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { Root, Spinner } from 'native-base';
-import { createStackNavigator } from 'react-navigation';
-import SelectVehicleScreen, { ROUTE_NAME as SELECT_VEHICLE_ROUTE } from './src/screens/SelectVehicle';
-import NewVehicleScreen, { ROUTE_NAME as NEW_VEHICLE_ROUTE } from './src/screens/NewVehicle';
-import RefuellingListScreen, { ROUTE_NAME as REFUELLING_LIST_ROUTE } from './src/screens/RefuellingList';
-import AddRefuellingScreen, { ROUTE_NAME as ADD_REFUELLING_ROUTE } from './src/screens/AddRefuelling';
-import firebase from 'react-native-firebase';
 
-const SelectVehicleStack = createStackNavigator(
-  {
-    [SELECT_VEHICLE_ROUTE]: SelectVehicleScreen,
-    [NEW_VEHICLE_ROUTE]: NewVehicleScreen,
-  },
-  {
-    initialRouteName: SELECT_VEHICLE_ROUTE,
-  }
-);
-
-const RefuellingStack = createStackNavigator(
-  {
-    [REFUELLING_LIST_ROUTE]: RefuellingListScreen,
-    [ADD_REFUELLING_ROUTE]: AddRefuellingScreen,
-  },
-  {
-    initialRouteName: REFUELLING_LIST_ROUTE,
-  }
-);
+import MainScene from './src/scenes/Main';
+import SelectVehicleStack from './src/scenes/VehicleSelection';
 
 export default class App extends React.Component {
   state = {
@@ -71,7 +48,7 @@ export default class App extends React.Component {
 
     return (
       <Root>
-        <RefuellingStack screenProps={{vehicleKey: selectedVehicle}} />
+        <MainScene vehicleKey={selectedVehicle} />
       </Root>
     );
   }

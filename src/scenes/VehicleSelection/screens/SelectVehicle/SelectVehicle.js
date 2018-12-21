@@ -6,10 +6,9 @@ import {
   Spinner,
 } from 'native-base';
 import firebase from 'react-native-firebase';
-import NavigateableComponent from './NavigateableComponent';
-import VehicleCard from '../components/VehicleCard';
-import { ROUTE_NAME as NEW_VEHICLE_ROUTE } from './NewVehicle';
-import { ROUTE_NAME as REFUELLING_LIST_ROUTE } from './RefuellingList';
+import NavigateableComponent from '../../../components/NavigateableComponent';
+import VehicleCard from '../../components/VehicleCard';
+import { ROUTE_NAME as NEW_VEHICLE_ROUTE } from '../NewVehicle/NewVehicle';
 
 export const ROUTE_NAME = 'SelectVehicle';
 
