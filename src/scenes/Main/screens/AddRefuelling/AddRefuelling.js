@@ -9,17 +9,17 @@ import {
   Toast,
 } from 'native-base';
 import firebase from 'react-native-firebase';
-import NavigateableComponent from './NavigateableComponent';
-import styles from '../styles/styles';
+import NavigateableComponent from '../../../components/NavigateableComponent';
+import styles from '../../../../styles/styles';
 import {
   DecimalInput,
   TextArea,
   DateInput,
   Picker,
   Switch,
-} from '../common';
-import { language } from '../config'
-import required from '../common/validation/required';
+} from '../../../../common';
+import { language } from '../../../../config'
+import required from '../../../../common/validation/required';
 
 export const ROUTE_NAME = 'AddRefuelling';
 

@@ -12,8 +12,8 @@ import {
   Toast,
 } from 'native-base';
 import firebase from 'react-native-firebase';
-import NavigateableComponent from './NavigateableComponent';
-import styles from '../styles/styles';
+import NavigateableComponent from '../../../components/NavigateableComponent';
+import styles from '../../../../styles/styles';
 
 export const ROUTE_NAME = 'NewVehicle';
 

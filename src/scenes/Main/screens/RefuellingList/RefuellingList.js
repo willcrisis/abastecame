@@ -10,8 +10,8 @@ import {
   Icon,
 } from 'native-base';
 import firebase from 'react-native-firebase';
-import NavigateableComponent from './NavigateableComponent';
-import { ROUTE_NAME as ADD_REFUELLING_ROUTE } from './AddRefuelling';
+import NavigateableComponent from '../../../components/NavigateableComponent';
+import { ROUTE_NAME as ADD_REFUELLING_ROUTE } from '../AddRefuelling/AddRefuelling';
 
 export const ROUTE_NAME = 'RefuellingList';
 

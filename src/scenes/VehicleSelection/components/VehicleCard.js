@@ -56,7 +56,7 @@ export default class VehicleCard extends Component {
 
     const imageToDisplay = imageUrl.length
       ? { uri: imageUrl }
-      : require('../../assets/placeholder.png');
+      : require('../../../../assets/placeholder.png');
 
     return (
       <Card>
