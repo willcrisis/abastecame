@@ -17,6 +17,11 @@ const styles = StyleSheet.create({
   },
   left: {
     flex: 1,
+  },
+  subtext: {
+    fontSize: 14,
+    paddingTop: 5,
+    color: '#aaa'
   }
 });
 

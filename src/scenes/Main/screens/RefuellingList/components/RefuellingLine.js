@@ -20,8 +20,8 @@ const RefuellingLine = ({ refuelling: {
         <Text>{format(date)}</Text>
       </View>
       <View style={style.line}>
-        <Text style={style.left}>{distancePerLiter ? `${distancePerLiter} Km/l` : '' }</Text>
-        <Text>R$ {total.toFixed(2)}</Text>
+        <Text style={[style.left, style.subtext]}>{distancePerLiter ? `${distancePerLiter} Km/l` : '' }</Text>
+        <Text style={style.subtext}>R$ {total.toFixed(2)}</Text>
       </View>
     </View>
   );
