@@ -71,10 +71,6 @@ processRefuelling = refuelling => ({
   price: this.priceRef.getRawValue(),
   liters: this.litersRef.getRawValue(),
   total: this.totalRef.getRawValue(),
-  distance: 0,
-  dailyDistance: 0,
-  distancePerLiter: 0,
-  pricePerDistance: 0,
 });
 
 save = async () => {

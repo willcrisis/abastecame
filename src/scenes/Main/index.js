@@ -18,6 +18,57 @@ const RefuellingStack = createStackNavigator(
   }
 );
 
+// Some notes about this function:
+// 1. If I have a full tank and consume some fuel, the next refuelling's liters
+//    amount is how many fuel I consumed on the refuelling IF I have a new full tank.
+// 2. If a refuelling doesn't have a full tank, I can't determine how many liters
+//    were consumed because the next refuelling's liters amount doesn't reflect the
+//    reality of consumed liters
+// 3. If a refuelling's next refuelling doesn't have a full tank, I can't determine
+//    the amount of consumed liters because it will be lesser than the real amount of
+//    consumed liters
+// 4. The cost per Km considers the amount of consumed liters (the next refuelling's
+//    liters amount) to show the real cost for the current refuelling
+const doCalcsOnRefuellings = (acc, refuelling, index, array) => {
+  const nextRefuelling = array[index - 1];
+
+  let extendedData;
+  if (nextRefuelling) {
+    const distance = nextRefuelling.odometer - refuelling.odometer;
+    const days = differenceInCalendarDays(nextRefuelling.date, refuelling.date);
+    const dailyDistance = distance / days;
+
+    let distancePerLiter = 0;
+    let costPerKm = 0;
+    if (refuelling.fullTank && nextRefuelling.fullTank) {
+      distancePerLiter = distance / nextRefuelling.liters;
+      costPerKm = (nextRefuelling.liters * refuelling.price) / distance;
+    }
+
+    extendedData = {
+      distance,
+      dailyDistance: dailyDistance.toFixed(2),
+      distancePerLiter: distancePerLiter.toFixed(2),
+      costPerKm: costPerKm.toFixed(2),
+    }
+  } else {
+    extendedData = {
+      distance: 0,
+      dailyDistance: 0,
+      distancePerLiter: 0,
+      costPerKm: 0,
+    }
+  }
+
+  return [
+    ...acc,
+    {
+      ...refuelling,
+      ...extendedData,
+    }
+  ]
+};
+
 class Main extends Component {
   state = {
     vehicle: {},
@@ -54,7 +105,7 @@ class Main extends Component {
         });
         return;
       }
-      const refuellings = [];
+      let refuellings = [];
 
       snapshot.forEach(refuellingRef => {
         refuellings.push({
@@ -63,8 +114,11 @@ class Main extends Component {
         });
       });
 
+      refuellings.sort((a, b) => b.odometer - a.odometer);
+      refuellings = refuellings.reduce(doCalcsOnRefuellings, []);
+
       this.setState({
-        refuellings: [...refuellings].sort((a, b) => b.odometer - a.odometer),
+        refuellings,
         loadingRefuellings: false,
       });
     }, err => console.warn(err));
@@ -110,29 +164,7 @@ class Main extends Component {
 
   saveRefuelling = async (refuelling) => {
     await this.refuellingsRef.add(refuelling);
-
-    const updatedPreviousRefuelling = this.calculatePreviousRefuelling(refuelling);
-    if (updatedPreviousRefuelling) {
-      await this.refuellingsRef.doc(updatedPreviousRefuelling.id).update(updatedPreviousRefuelling)
-    }
-
     this.goTo(REFUELLING_LIST_ROUTE);
-  }
-
-  calculatePreviousRefuelling = (refuelling) => {
-    const { refuellings } = this.state;
-    const previousRefuelling = refuellings.find(({ odometer }) => odometer < refuelling.odometer);
-    if (!previousRefuelling) return null;
-
-    const distance = refuelling.odometer - previousRefuelling.odometer;
-    const days = differenceInCalendarDays(refuelling.date, previousRefuelling.date);
-    return {
-      ...previousRefuelling,
-      distance,
-      dailyDistance: distance / days,
-      distancePerLiter: distance / refuelling.liters,
-      pricePerDistance: previousRefuelling.total / distance,
-    };
   }
 
   render() {
