@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
-import firebase from 'react-native-firebase';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import NavigationService from '../../services/Navigation';
-import { language } from '../../config';
+import firebase from '../../firebase'
 
 import RefuellingListScreen, { ROUTE_NAME as REFUELLING_LIST_ROUTE } from './screens/RefuellingList/RefuellingList';
 import AddRefuellingScreen, { ROUTE_NAME as ADD_REFUELLING_ROUTE } from './screens/AddRefuelling/AddRefuelling';
+import RefuellingDetailsScreen, { ROUTE_NAME as REFUELLING_DETAILS_ROUTE } from './screens/RefuellingDetails/RefuellingDetails';
 
 const RefuellingStack = createStackNavigator(
   {
     [REFUELLING_LIST_ROUTE]: RefuellingListScreen,
     [ADD_REFUELLING_ROUTE]: AddRefuellingScreen,
+    [REFUELLING_DETAILS_ROUTE]: RefuellingDetailsScreen,
   },
   {
     initialRouteName: REFUELLING_LIST_ROUTE,
@@ -47,9 +48,9 @@ const doCalcsOnRefuellings = (acc, refuelling, index, array) => {
 
     extendedData = {
       distance,
-      dailyDistance: dailyDistance.toFixed(2),
-      distancePerLiter: distancePerLiter.toFixed(2),
-      costPerKm: costPerKm.toFixed(2),
+      dailyDistance: dailyDistance,
+      distancePerLiter: distancePerLiter,
+      costPerKm: costPerKm,
     }
   } else {
     extendedData = {
@@ -73,21 +74,16 @@ class Main extends Component {
   state = {
     vehicle: {},
     refuellings: [],
-    fuels: [],
     loadingVehicle: true,
     loadingRefuellings: true,
-    loadingFuels: true,
   }
 
   constructor(props) {
     super(props);
     const { vehicleKey } = this.props;
 
-    const firestore = firebase.firestore();
-
-    this.vehicleRef = firestore.doc(`vehicles/${vehicleKey}`);
+    this.vehicleRef = firebase.firestore.doc(`vehicles/${vehicleKey}`);
     this.refuellingsRef = this.vehicleRef.collection('refuellings');
-    this.fuelsRef = firestore.collection('fuels');
   }
 
   componentDidMount() {
@@ -110,7 +106,7 @@ class Main extends Component {
       snapshot.forEach(refuellingRef => {
         refuellings.push({
           ...refuellingRef.data(),
-          id: refuellingRef.id,
+          key: refuellingRef.id,
         });
       });
 
@@ -122,41 +118,23 @@ class Main extends Component {
         loadingRefuellings: false,
       });
     }, err => console.warn(err));
-
-    this.unsubscribeFuels = this.fuelsRef.onSnapshot(snapshot => {
-      const fuels = [];
-
-      snapshot.forEach(fuelRef => {
-        const data = fuelRef.data();
-        fuels.push({
-          label: data[language] || data.en,
-          key: fuelRef.id,
-        });
-      });
-
-      this.setState({
-        fuels,
-        loadingFuels: false,
-      });
-    }, err => console.warn(err));
   }
 
   componentWillUnmount() {
     this.unsubscribeVehicle();
     this.unsubscribeRefuellings();
-    this.unsubscribeFuels();
   }
 
-  goTo = (routeName) => {
-    const { fuels } = this.state;
+  goTo = (routeName, params) => {
     switch (routeName) {
       case ADD_REFUELLING_ROUTE:
         return NavigationService.navigate(routeName, {
-          fuels,
           saveRefuelling: this.saveRefuelling,
         });
       case REFUELLING_LIST_ROUTE:
         return NavigationService.navigate(routeName);
+      case REFUELLING_DETAILS_ROUTE:
+        return NavigationService.navigate(routeName, params);
       default:
         return;
     }
@@ -168,13 +146,14 @@ class Main extends Component {
   }
 
   render() {
-    const { loadingRefuellings, loadingVehicle, loadingFuels, refuellings } = this.state;
+    const { loadingRefuellings, loadingVehicle, refuellings } = this.state;
     return (
       <RefuellingStack
         ref={navigatorRef => NavigationService.setTopLevelNavigator(navigatorRef)}
         screenProps={{
-          loading: loadingRefuellings || loadingVehicle || loadingFuels,
+          loading: loadingRefuellings || loadingVehicle,
           refuellings,
+          goToDetails: refuelling => this.goTo(REFUELLING_DETAILS_ROUTE, { refuelling }),
           goToAddRefuelling: () => this.goTo(ADD_REFUELLING_ROUTE),
         }}
       />

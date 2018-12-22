@@ -1,10 +1,9 @@
 import React from 'react';
+import { FlatList } from 'react-native';
 import {
   Container,
   Content,
-  Text,
   Spinner,
-  List,
   ListItem,
   Fab,
   Icon,
@@ -13,19 +12,25 @@ import RefuellingLine from './components/RefuellingLine';
 
 export const ROUTE_NAME = 'RefuellingList';
 
-const RefuellingList = ({ screenProps: { refuellings, loading, goToAddRefuelling } }) => (
+const RefuellingList = ({ screenProps: {
+  refuellings,
+  loading,
+  goToAddRefuelling,
+  goToDetails,
+} }) => (
   loading ? (
     <Spinner />
   ) : (
       <Container>
         <Content>
-          <List>
-            {refuellings.map(refuelling => (
-              <ListItem key={refuelling.id}>
-                <RefuellingLine refuelling={refuelling} />
+          <FlatList
+            data={refuellings}
+            renderItem={({ item }) => (
+              <ListItem key={item.id} button>
+                <RefuellingLine refuelling={item} onPress={goToDetails} />
               </ListItem>
-            ))}
-          </List>
+            )}
+          />
         </Content>
         <Fab onPress={goToAddRefuelling}>
           <Icon name="add" />
