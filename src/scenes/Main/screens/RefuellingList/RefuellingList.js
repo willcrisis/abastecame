@@ -9,6 +9,7 @@ import {
   Fab,
   Icon,
 } from 'native-base';
+import RefuellingLine from './components/RefuellingLine';
 
 export const ROUTE_NAME = 'RefuellingList';
 
@@ -21,7 +22,7 @@ const RefuellingList = ({ screenProps: { refuellings, loading, goToAddRefuelling
           <List>
             {refuellings.map(refuelling => (
               <ListItem key={refuelling.id}>
-                <Text>{refuelling.odometer}</Text>
+                <RefuellingLine refuelling={refuelling} />
               </ListItem>
             ))}
           </List>
