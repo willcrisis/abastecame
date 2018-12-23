@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
-import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import NavigationService from '../../services/Navigation';
-import firebase from '../../firebase'
+import firebase from '../../firebase';
+import { getRefuelings } from '../../models/refuelling';
 
 import RefuellingListScreen, { ROUTE_NAME as REFUELLING_LIST_ROUTE } from './screens/RefuellingList/RefuellingList';
 import AddRefuellingScreen, { ROUTE_NAME as ADD_REFUELLING_ROUTE } from './screens/AddRefuelling/AddRefuelling';
@@ -18,57 +18,6 @@ const RefuellingStack = createStackNavigator(
     initialRouteName: REFUELLING_LIST_ROUTE,
   }
 );
-
-// Some notes about this function:
-// 1. If I have a full tank and consume some fuel, the next refuelling's liters
-//    amount is how many fuel I consumed on the refuelling IF I have a new full tank.
-// 2. If a refuelling doesn't have a full tank, I can't determine how many liters
-//    were consumed because the next refuelling's liters amount doesn't reflect the
-//    reality of consumed liters
-// 3. If a refuelling's next refuelling doesn't have a full tank, I can't determine
-//    the amount of consumed liters because it will be lesser than the real amount of
-//    consumed liters
-// 4. The cost per Km considers the amount of consumed liters (the next refuelling's
-//    liters amount) to show the real cost for the current refuelling
-const doCalcsOnRefuellings = (acc, refuelling, index, array) => {
-  const nextRefuelling = array[index - 1];
-
-  let extendedData;
-  if (nextRefuelling) {
-    const distance = nextRefuelling.odometer - refuelling.odometer;
-    const days = differenceInCalendarDays(nextRefuelling.date, refuelling.date);
-    const dailyDistance = distance / days;
-
-    let distancePerLiter = 0;
-    let costPerKm = 0;
-    if (refuelling.fullTank && nextRefuelling.fullTank) {
-      distancePerLiter = distance / nextRefuelling.liters;
-      costPerKm = (nextRefuelling.liters * refuelling.price) / distance;
-    }
-
-    extendedData = {
-      distance,
-      dailyDistance: dailyDistance,
-      distancePerLiter: distancePerLiter,
-      costPerKm: costPerKm,
-    }
-  } else {
-    extendedData = {
-      distance: 0,
-      dailyDistance: 0,
-      distancePerLiter: 0,
-      costPerKm: 0,
-    }
-  }
-
-  return [
-    ...acc,
-    {
-      ...refuelling,
-      ...extendedData,
-    }
-  ]
-};
 
 class Main extends Component {
   state = {
@@ -94,7 +43,17 @@ class Main extends Component {
       });
     }, err => console.warn(err));
 
-    this.unsubscribeRefuellings = this.refuellingsRef.onSnapshot(snapshot => {
+    this.loadRefuellings();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeVehicle();
+    this.unsubscribeRefuellings();
+  }
+
+  loadRefuellings = async () => {
+    this.setState({ loadingRefuellings: true }, async () => {
+      const snapshot = await this.refuellingsRef.orderBy('odometer', 'desc').get();
       if (snapshot.empty) {
         this.setState({
           loadingRefuellings: false,
@@ -110,49 +69,70 @@ class Main extends Component {
         });
       });
 
-      refuellings.sort((a, b) => b.odometer - a.odometer);
-      refuellings = refuellings.reduce(doCalcsOnRefuellings, []);
+      refuellings = getRefuelings(refuellings);
 
       this.setState({
         refuellings,
         loadingRefuellings: false,
       });
-    }, err => console.warn(err));
+    });
   }
 
-  componentWillUnmount() {
-    this.unsubscribeVehicle();
-    this.unsubscribeRefuellings();
-  }
+  goTo = (routeName, params, replace) => {
+    let allowNavigation = false;
+    let defaultParams;
 
-  goTo = (routeName, params) => {
     switch (routeName) {
       case ADD_REFUELLING_ROUTE:
-        return NavigationService.navigate(routeName, {
+        allowNavigation = true;
+        defaultParams = {
           saveRefuelling: this.saveRefuelling,
-        });
+        };
+        break;
       case REFUELLING_LIST_ROUTE:
-        return NavigationService.navigate(routeName);
+        allowNavigation = true;
+        break;
       case REFUELLING_DETAILS_ROUTE:
-        return NavigationService.navigate(routeName, params);
+        allowNavigation = true;
+        break;
       default:
-        return;
+        allowNavigation = false;
+    }
+
+    if (allowNavigation) {
+      if (replace) {
+        return NavigationService.replace(routeName, params || defaultParams);
+      }
+      return NavigationService.navigate(routeName, params || defaultParams);
     }
   }
 
   saveRefuelling = async (refuelling) => {
-    await this.refuellingsRef.add(refuelling);
-    this.goTo(REFUELLING_LIST_ROUTE);
+    const newRefuellingRef = await this.refuellingsRef.add(refuelling);
+    const refuellingSnapshot = await newRefuellingRef.get();
+    const newRefuelling = {
+      ...refuellingSnapshot.data(),
+      key: refuellingSnapshot.id,
+    };
+    const refuellings = getRefuelings([
+      newRefuelling,
+      ...this.state.refuellings
+    ]);
+    this.setState({ refuellings });
+    const processedRefuelling = refuellings.find(({ key }) => key === newRefuelling.key);
+
+    this.goTo(REFUELLING_DETAILS_ROUTE, { refuelling: processedRefuelling }, true);
   }
 
   render() {
-    const { loadingRefuellings, loadingVehicle, refuellings } = this.state;
+    const { loadingRefuellings, refuellings } = this.state;
     return (
       <RefuellingStack
         ref={navigatorRef => NavigationService.setTopLevelNavigator(navigatorRef)}
         screenProps={{
-          loading: loadingRefuellings || loadingVehicle,
           refuellings,
+          reload: this.loadRefuellings,
+          isReloading: loadingRefuellings,
           goToDetails: refuelling => this.goTo(REFUELLING_DETAILS_ROUTE, { refuelling }),
           goToAddRefuelling: () => this.goTo(ADD_REFUELLING_ROUTE),
         }}

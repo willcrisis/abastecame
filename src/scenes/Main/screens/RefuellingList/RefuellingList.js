@@ -14,30 +14,27 @@ export const ROUTE_NAME = 'RefuellingList';
 
 const RefuellingList = ({ screenProps: {
   refuellings,
-  loading,
+  reload,
+  isReloading,
   goToAddRefuelling,
   goToDetails,
 } }) => (
-  loading ? (
-    <Spinner />
-  ) : (
-      <Container>
-        <Content>
-          <FlatList
-            data={refuellings}
-            renderItem={({ item }) => (
-              <ListItem key={item.id} button>
-                <RefuellingLine refuelling={item} onPress={goToDetails} />
-              </ListItem>
-            )}
-          />
-        </Content>
-        <Fab onPress={goToAddRefuelling}>
-          <Icon name="add" />
-        </Fab>
-      </Container>
-    )
-);
+    <Container>
+      <FlatList
+        data={refuellings}
+        renderItem={({ item }) => (
+          <ListItem key={item.id} button>
+            <RefuellingLine refuelling={item} onPress={goToDetails} />
+          </ListItem>
+        )}
+        refreshing={isReloading}
+        onRefresh={reload}
+      />
+      <Fab onPress={goToAddRefuelling}>
+        <Icon name="add" />
+      </Fab>
+    </Container>
+  );
 
 RefuellingList.navigationOptions = {
   title: 'Refuellings'
