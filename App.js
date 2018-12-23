@@ -5,6 +5,8 @@ import { Root, Spinner } from 'native-base';
 import MainScene from './src/scenes/Main';
 import SelectVehicleStack from './src/scenes/VehicleSelection';
 
+import firebase from './src/firebase';
+
 export default class App extends React.Component {
   state = {
     loading: true,
@@ -13,11 +15,16 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     // await AsyncStorage.removeItem('vehicleKey');
+    firebase.init();
     const selectedVehicle = await AsyncStorage.getItem('vehicleKey');
     this.setState({
       selectedVehicle,
       loading: false,
     });
+  }
+
+  componentWillUnmount() {
+    firebase.destroy();
   }
 
   onSelectVehicle = (selectedVehicle) => {

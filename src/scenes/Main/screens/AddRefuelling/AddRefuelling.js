@@ -86,12 +86,10 @@ setRef = (refName, ref) => {
 
 render() {
   const { refuelling } = this.state;
-  const fuels = this.props.navigation.getParam('fuels');
 
   return (
     <AddRefuellingForm
       {...this.props}
-      fuels={fuels}
       updateField={this.updateField}
       refuelling={refuelling}
       save={this.save}

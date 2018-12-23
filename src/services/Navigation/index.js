@@ -1,4 +1,4 @@
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 let _navigator;
 
@@ -15,9 +15,12 @@ function navigate(routeName, params) {
   );
 }
 
-function goBack() {
+function replace(routeName, params) {
   _navigator.dispatch(
-    NavigationActions.goBack(),
+    StackActions.replace({
+      routeName,
+      params,
+    }),
   );
 }
 
@@ -25,5 +28,6 @@ function goBack() {
 
 export default {
   navigate,
+  replace,
   setTopLevelNavigator,
 };
