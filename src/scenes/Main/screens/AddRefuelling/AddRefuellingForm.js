@@ -21,6 +21,7 @@ const AddRefuellingForm = ({
   updateField,
   save,
   setRef,
+  isSaving,
 }) => (
     <Container>
       <Content padder>
@@ -73,7 +74,7 @@ const AddRefuellingForm = ({
             label={I18n.t('refuelling.notes')}
           />
         </Form>
-        <Button onPress={save} full>
+        <Button onPress={save} full disabled={isSaving}>
           <Text>{I18n.t('actions.save')}</Text>
         </Button>
       </Content>

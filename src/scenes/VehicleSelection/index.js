@@ -70,7 +70,7 @@ class VehicleSelection extends Component {
     }
   };
 
-  saveVehicle = async (vehicle) => {
+  saveVehicle = async (vehicle, callback) => {
     const newVehicleRef = await this.vehiclesRef.add(vehicle);
     const { user } = this.state;
     const newVehiclesList = [
@@ -82,6 +82,7 @@ class VehicleSelection extends Component {
       vehicles: newVehiclesList,
     });
     await this.loadVehicles(newVehiclesList);
+    callback();
     NavigationService.goBack();
   };
 

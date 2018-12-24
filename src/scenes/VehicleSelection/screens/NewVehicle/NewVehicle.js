@@ -52,8 +52,7 @@ export default class NewVehicle extends Component {
         return;
       };
       const saveVehicle = this.props.navigation.getParam('saveVehicle');
-      await saveVehicle(vehicle);
-      this.setState({ isSaving: false });
+      await saveVehicle(vehicle, () => this.setState({ isSaving: false }));
     });
   };
 
