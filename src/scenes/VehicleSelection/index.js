@@ -17,6 +17,7 @@ const SelectVehicleStack = createStackNavigator(
 
 class VehicleSelection extends Component {
   state = {
+    user: {},
     vehicles: [],
     loadingVehicles: true,
   }
@@ -25,6 +26,7 @@ class VehicleSelection extends Component {
     super(props);
     this.storageRef = firebase.storage;
     const currentUser = firebase.currentUser();
+    this.vehiclesRef = firebase.firestore.collection('vehicles');
     this.userRef = firebase.firestore.doc(`users/${currentUser.uid}`);
   }
 
@@ -34,8 +36,8 @@ class VehicleSelection extends Component {
 
   loadData = async () => {
     const userSnap = await this.userRef.get();
-    const userData = userSnap.data();
-    this.loadVehicles(userData.vehicles)
+    const user = userSnap.data();
+    this.setState({ user }, () => this.loadVehicles(user.vehicles))
   }
 
   loadVehicles = (refs) => {
@@ -69,12 +71,17 @@ class VehicleSelection extends Component {
   };
 
   saveVehicle = async (vehicle) => {
-    await this.vehiclesRef.add({
-      ...vehicle,
-      users: {
-        '3eqzPiYvwYNHvQLHIm2BaO7jUTs1': true,
-      },
+    const newVehicleRef = await this.vehiclesRef.add(vehicle);
+    const { user } = this.state;
+    const newVehiclesList = [
+      ...user.vehicles,
+      newVehicleRef.id,
+    ];
+    await this.userRef.update({
+      ...user,
+      vehicles: newVehiclesList,
     });
+    await this.loadVehicles(newVehiclesList);
     NavigationService.goBack();
   };
 

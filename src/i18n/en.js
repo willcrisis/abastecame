@@ -4,6 +4,15 @@ const en = {
     newRefuelling: 'New Refuelling',
     refuellingDetails: 'Details',
     selectVehicle: 'Vehicles',
+    newVehicle: 'New Vehicle',
+  },
+  vehicle: {
+    name: 'Name',
+    model: 'Model',
+    manufacturer: 'Manufacturer',
+    fuels: 'Fuels',
+    image: 'Image',
+    required: 'Please fill the following fields: %s',
   },
   refuelling: {
     date: 'Date',
