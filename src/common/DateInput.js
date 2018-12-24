@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import format from './dateFns/format';
+import I18n from '../i18n';
 import textInputStyle from './TextInput.styles';
 import labelStyle from './Label.styles';
 
@@ -30,6 +31,10 @@ export default class DateInput extends Component {
           isVisible={isModalOpen}
           onCancel={() => this.toggleModal(false)}
           onConfirm={this.onDateChange}
+          cancelTextIOS={I18n.t('actions.cancel')}
+          confirmTextIOS={I18n.t('actions.confirm')}
+          titleIOS={I18n.t('dateInput.title')}
+          locale={I18n.getCurrentLanguage()}
         />
       </View>
     )

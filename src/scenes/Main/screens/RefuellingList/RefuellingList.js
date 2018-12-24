@@ -2,12 +2,11 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import {
   Container,
-  Content,
-  Spinner,
   ListItem,
   Fab,
   Icon,
 } from 'native-base';
+import I18n from '../../../../i18n';
 import RefuellingLine from './components/RefuellingLine';
 
 export const ROUTE_NAME = 'RefuellingList';
@@ -37,7 +36,7 @@ const RefuellingList = ({ screenProps: {
   );
 
 RefuellingList.navigationOptions = {
-  title: 'Refuellings'
+  title: I18n.t('screenTitles.refuellings'),
 };
 
 export default RefuellingList;
