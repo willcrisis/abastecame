@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
+import I18n from '../i18n';
 import textInputStyle from './TextInput.styles';
 import labelStyle from './Label.styles';
 
 class Picker extends Component {
   state = {
-    selectedItem: { label: 'Select one...' },
+    selectedItem: { label: I18n.t('picker.initialValue') },
   };
 
   componentDidMount() {
@@ -31,6 +32,7 @@ class Picker extends Component {
         <ModalSelector
           data={data}
           onChange={this.onChange}
+          cancelText={I18n.t('actions.cancel')}
         >
           <Text style={textInputStyle}>{selectedItem.label}</Text>
         </ModalSelector>

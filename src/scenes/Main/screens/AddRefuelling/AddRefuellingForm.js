@@ -6,6 +6,7 @@ import {
   Form,
   Button,
 } from 'native-base';
+import I18n from '../../../../i18n';
 import styles from '../../../../styles/styles';
 import {
   DecimalInput,
@@ -26,23 +27,23 @@ const AddRefuellingForm = ({
         <Form style={styles.form}>
           <DateInput
             value={refuelling.date}
-            label="Date"
+            label={I18n.t('refuelling.date')}
             onDateChange={updateField('date')}
           />
           <FuelPicker
-            label="Fuel"
+            label={I18n.t('refuelling.fuel')}
             selectedValue={refuelling.fuel}
             onValueChange={updateField('fuel')}
           />
           <Switch
-            label="Full Tank"
+            label={I18n.t('refuelling.fullTank')}
             value={refuelling.fullTank}
             onValueChange={() => updateField('fullTank')(!refuelling.fullTank)}
           />
           <DecimalInput
             onChangeText={updateField('odometer')}
             value={refuelling.odometer}
-            label="Odometer"
+            label={I18n.t('refuelling.odometer')}
             precision={0}
             delimiter=" "
             innerRef={ref => setRef('odometerRef', ref)}
@@ -50,32 +51,30 @@ const AddRefuellingForm = ({
           <DecimalInput
             onChangeText={updateField('price')}
             value={refuelling.price}
-            label="Fuel Price"
+            label={I18n.t('refuelling.price')}
             precision={3}
             innerRef={ref => setRef('priceRef', ref)}
           />
           <DecimalInput
             onChangeText={updateField('liters')}
             value={refuelling.liters}
-            label="Liters"
+            label={I18n.t('refuelling.liters')}
             innerRef={ref => setRef('litersRef', ref)}
           />
           <DecimalInput
             onChangeText={updateField('total')}
             value={refuelling.total}
-            label="Total Value"
+            label={I18n.t('refuelling.total')}
             innerRef={ref => setRef('totalRef', ref)}
           />
           <TextArea
             onChangeText={updateField('notes')}
             value={refuelling.notes}
-            label="Notes"
+            label={I18n.t('refuelling.notes')}
           />
         </Form>
         <Button onPress={save} full>
-          <Text>
-            Save
-            </Text>
+          <Text>{I18n.t('actions.save')}</Text>
         </Button>
       </Content>
     </Container>
