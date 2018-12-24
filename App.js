@@ -14,7 +14,7 @@ export default class App extends React.Component {
   };
 
   async componentDidMount() {
-    // await AsyncStorage.removeItem('vehicleKey');
+    await AsyncStorage.removeItem('vehicleKey');
     firebase.init();
     const selectedVehicle = await AsyncStorage.getItem('vehicleKey');
     this.setState({

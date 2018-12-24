@@ -7,9 +7,7 @@ import {
   Icon,
 } from 'native-base';
 import I18n from '../../../../i18n';
-import NavigateableComponent from '../../../components/NavigateableComponent';
-import VehicleCard from '../../components/VehicleCard';
-import { ROUTE_NAME as NEW_VEHICLE_ROUTE } from '../NewVehicle/NewVehicle';
+import VehicleCard from './components/VehicleCard';
 
 export const ROUTE_NAME = 'SelectVehicle';
 
@@ -18,7 +16,8 @@ const SelectVehicle = ({ screenProps: {
   reload,
   vehicles,
   onSelectVehicle,
-  goToNewVehicle
+  goToNewVehicle,
+  loadImage,
 } }) => (
   <Container>
     <FlatList

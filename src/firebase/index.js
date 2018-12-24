@@ -3,6 +3,7 @@ import I18n from '../i18n';
 
 const firestore = firebase.firestore();
 const auth = firebase.auth();
+const storage = firebase.storage();
 
 let fuelList;
 let unsubscribeFuels;
@@ -36,6 +37,7 @@ const currentUser = () => currentUserInstance;
 export default {
   firestore,
   auth,
+  storage,
   init,
   destroy,
   fuels,

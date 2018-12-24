@@ -23,26 +23,32 @@ class VehicleSelection extends Component {
 
   constructor(props) {
     super(props);
+    this.storageRef = firebase.storage;
     const currentUser = firebase.currentUser();
-    this.vehiclesRef = firebase.firestore
-      .collection('vehicles')
-      .where(`users.${currentUser.uid}`, '==', true);
+    this.userRef = firebase.firestore.doc(`users/${currentUser.uid}`);
   }
 
   componentDidMount() {
-    this.loadVehicles();
+    this.loadUser();
   }
 
-  loadVehicles = () => {
+  loadUser = async () => {
+    const userSnap = await this.userRef.get();
+    const userData = userSnap.data();
+    this.loadVehicles(userData.vehicles)
+  }
+
+  loadVehicles = (refs) => {
     this.setState({ loadingVehicles: true }, async () => {
-      const snapshot = await this.vehiclesRef.get();
-      const vehicles = [];
-      snapshot.forEach(vehicleRef => {
-        vehicles.push({
-          ...vehicleRef.data(),
-          key: vehicleRef.id,
-        });
-      });
+      let vehicles = await Promise.all(refs.map(async (vehicleID) => {
+        const snapshot = await firebase.firestore.doc(`vehicles/${vehicleID}`).get();
+        const imageUrl = await this.loadImage(snapshot.id);
+        return {
+          ...snapshot.data(),
+          key: snapshot.id,
+          imageUrl,
+        };
+      }));
 
       this.setState({
         vehicles,
@@ -50,6 +56,17 @@ class VehicleSelection extends Component {
       });
     })
   }
+
+  loadImage = async (key) => {
+    const image = this.storageRef.ref(`${key}.jpg`);
+    try {
+      const imageUrl = await image.getDownloadURL();
+      return imageUrl;
+    } catch(err) {
+      if (err.code !== 'storage/object-not-found') console.warn(err);
+      return null;
+    }
+  };
 
   saveVehicle = async (vehicle) => {
     await this.vehiclesRef.add({
