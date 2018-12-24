@@ -29,10 +29,10 @@ class VehicleSelection extends Component {
   }
 
   componentDidMount() {
-    this.loadUser();
+    this.loadData();
   }
 
-  loadUser = async () => {
+  loadData = async () => {
     const userSnap = await this.userRef.get();
     const userData = userSnap.data();
     this.loadVehicles(userData.vehicles)
@@ -109,7 +109,7 @@ class VehicleSelection extends Component {
         ref={navigatorRef => NavigationService.setTopLevelNavigator(navigatorRef)}
         screenProps={{
           loading: loadingVehicles,
-          reload: this.loadVehicles,
+          reload: this.loadData,
           vehicles: vehicles,
           onSelectVehicle,
           goToNewVehicle: () => this.goTo(NEW_VEHICLE_ROUTE),
