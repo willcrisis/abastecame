@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { Root, Spinner } from 'native-base';
 
 import MainScene from './src/scenes/Main';
-import SelectVehicleStack from './src/scenes/VehicleSelection';
+import SelectVehicleScene from './src/scenes/VehicleSelection';
 
 import firebase from './src/firebase';
 
@@ -49,7 +49,7 @@ export default class App extends React.Component {
     if (!selectedVehicle)
       return (
         <Root>
-          <SelectVehicleStack screenProps={{onSelectVehicle: this.onSelectVehicle}} />
+          <SelectVehicleScene onSelectVehicle={this.onSelectVehicle} />
         </Root>
       );
 

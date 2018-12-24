@@ -3,6 +3,7 @@ const en = {
     refuellings: 'Refuellings',
     newRefuelling: 'New Refuelling',
     refuellingDetails: 'Details',
+    selectVehicle: 'Vehicles',
   },
   refuelling: {
     date: 'Date',

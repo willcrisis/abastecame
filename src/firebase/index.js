@@ -1,11 +1,17 @@
 import firebase from 'react-native-firebase';
+import I18n from '../i18n';
 
 const firestore = firebase.firestore();
+const auth = firebase.auth();
 
 let fuelList;
 let unsubscribeFuels;
+let currentUserInstance;
 
 const init = () => {
+  auth.languageCode = I18n.getCurrentLanguage();
+  currentUserInstance = auth.currentUser;
+
   const fuelsRef = firestore.collection('fuels');
 
   unsubscribeFuels = fuelsRef.onSnapshot(snapshot => {
@@ -25,10 +31,13 @@ const destroy = () => {
 }
 
 const fuels = () => fuelList;
+const currentUser = () => currentUserInstance;
 
 export default {
   firestore,
+  auth,
   init,
   destroy,
   fuels,
+  currentUser,
 }

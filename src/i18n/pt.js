@@ -3,6 +3,7 @@ const pt = {
     refuellings: 'Abastecimentos',
     newRefuelling: 'Novo Abastecimento',
     refuellingDetails: 'Detalhes',
+    selectVehicle: 'Veículos',
   },
   refuelling: {
     date: 'Data',
