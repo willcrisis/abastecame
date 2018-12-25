@@ -6,11 +6,14 @@ const auth = firebase.auth();
 const storage = firebase.storage();
 
 let fuelList;
-let unsubscribeFuels;
+let unsubscribeFuels = () => null;
 let currentUserInstance;
 
 const init = () => {
   auth.languageCode = I18n.getCurrentLanguage();
+}
+
+const initData = () => {
   currentUserInstance = auth.currentUser;
 
   const fuelsRef = firestore.collection('fuels');
@@ -27,8 +30,12 @@ const init = () => {
   }, err => console.warn(err));
 }
 
-const destroy = () => {
+const stopData = () => {
   unsubscribeFuels();
+}
+
+const destroy = () => {
+
 }
 
 const fuels = () => fuelList;
@@ -39,6 +46,8 @@ export default {
   auth,
   storage,
   init,
+  initData,
+  stopData,
   destroy,
   fuels,
   currentUser,

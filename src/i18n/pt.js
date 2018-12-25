@@ -6,6 +6,14 @@ const pt = {
     selectVehicle: 'Veículos',
     newVehicle: 'Novo Veículo',
   },
+  login: {
+    email: 'Email',
+    password: 'Senha',
+    forgotPassword: 'Esqueceu a senha?',
+    connectWith: 'ou entre com',
+    google: 'Google',
+    facebook: 'Facebook',
+  },
   vehicle: {
     name: 'Nome',
     model: 'Modelo',
@@ -39,6 +47,7 @@ const pt = {
     save: 'Salvar',
     confirm: 'Confirmar',
     cancel: 'Cancelar',
+    login: 'Login'
   }
 }
 

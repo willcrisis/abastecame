@@ -6,6 +6,14 @@ const en = {
     selectVehicle: 'Vehicles',
     newVehicle: 'New Vehicle',
   },
+  login: {
+    email: 'Email',
+    password: 'Password',
+    forgotPassword: 'Forgot password?',
+    connectWith: 'or connect with',
+    google: 'Google',
+    facebook: 'Facebook',
+  },
   vehicle: {
     name: 'Name',
     model: 'Model',
@@ -39,6 +47,7 @@ const en = {
     save: 'Save',
     confirm: 'Confirm',
     cancel: 'Cancel',
+    login: 'Login'
   }
 }
 
