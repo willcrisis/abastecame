@@ -87,6 +87,7 @@ class Main extends Component {
         allowNavigation = true;
         defaultParams = {
           saveRefuelling: this.saveRefuelling,
+          fuels: this.state.vehicle.fuels,
         };
         break;
       case REFUELLING_LIST_ROUTE:

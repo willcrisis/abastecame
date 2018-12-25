@@ -18,6 +18,7 @@ import { FuelPicker } from '../../../components';
 
 const AddRefuellingForm = ({
   refuelling,
+  fuels,
   updateField,
   save,
   setRef,
@@ -35,6 +36,7 @@ const AddRefuellingForm = ({
             label={I18n.t('refuelling.fuel')}
             selectedValue={refuelling.fuel}
             onValueChange={updateField('fuel')}
+            data={fuels}
           />
           <Switch
             label={I18n.t('refuelling.fullTank')}

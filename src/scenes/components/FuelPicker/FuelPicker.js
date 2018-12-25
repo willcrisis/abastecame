@@ -5,8 +5,11 @@ import I18n from '../../../i18n';
 
 const currentLangage = I18n.getCurrentLanguage();
 
-const FuelPicker = (props) => {
-  const fuels = firebase.fuels();
+const FuelPicker = ({ data, ...props }) => {
+  let fuels = firebase.fuels();
+  if (data) {
+    fuels = fuels.filter(fuel => data.includes(fuel.key))
+  }
 
   return (
     <Picker

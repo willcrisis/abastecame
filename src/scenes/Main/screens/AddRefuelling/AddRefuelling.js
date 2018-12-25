@@ -13,7 +13,7 @@ export default class AddRefuelling extends Component {
 
   state = {
     refuelling: {
-      fuel: 'diesel',
+      fuel: '',
       date: new Date(),
       fullTank: true,
       odometer: '',
@@ -95,10 +95,12 @@ export default class AddRefuelling extends Component {
 
   render() {
     const { refuelling, isSaving } = this.state;
+    const { navigation: { getParam } } = this.props;
 
     return (
       <AddRefuellingForm
         {...this.props}
+        fuels={getParam('fuels')}
         updateField={this.updateField}
         refuelling={refuelling}
         save={this.save}
