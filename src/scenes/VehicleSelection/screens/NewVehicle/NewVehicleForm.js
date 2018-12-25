@@ -4,15 +4,12 @@ import {
   Content,
   Text,
   Form,
-  Item,
-  Input,
-  Label,
   Button,
-  Toast,
 } from 'native-base';
 import I18n from '../../../../i18n';
 import styles from '../../../../styles/styles';
 import { TextInput } from '../../../../common';
+import { FuelPicker } from '../../../components'
 
 const NewVehicleForm = ({
   vehicle,
@@ -37,6 +34,11 @@ const NewVehicleForm = ({
             label={I18n.t('vehicle.model')}
             value={vehicle.model}
             onChangeText={updateField('model')}
+          />
+          <FuelPicker
+            label={I18n.t('vehicle.fuels')}
+            multiple
+            onValueChange={updateField('fuels')}
           />
         </Form>
         <Button onPress={save} full disabled={isSaving}>
