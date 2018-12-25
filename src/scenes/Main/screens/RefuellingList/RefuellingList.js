@@ -22,7 +22,7 @@ const RefuellingList = ({ screenProps: {
       <FlatList
         data={refuellings}
         renderItem={({ item }) => (
-          <ListItem key={item.id} button>
+          <ListItem key={item.key} button>
             <RefuellingLine refuelling={item} onPress={goToDetails} />
           </ListItem>
         )}

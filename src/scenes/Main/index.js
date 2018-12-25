@@ -87,6 +87,7 @@ class Main extends Component {
         allowNavigation = true;
         defaultParams = {
           saveRefuelling: this.saveRefuelling,
+          fuels: this.state.vehicle.fuels,
         };
         break;
       case REFUELLING_LIST_ROUTE:
@@ -107,7 +108,7 @@ class Main extends Component {
     }
   }
 
-  saveRefuelling = async (refuelling) => {
+  saveRefuelling = async (refuelling, callback) => {
     const newRefuellingRef = await this.refuellingsRef.add(refuelling);
     const refuellingSnapshot = await newRefuellingRef.get();
     const newRefuelling = {
@@ -120,7 +121,7 @@ class Main extends Component {
     ]);
     this.setState({ refuellings });
     const processedRefuelling = refuellings.find(({ key }) => key === newRefuelling.key);
-
+    callback();
     this.goTo(REFUELLING_DETAILS_ROUTE, { refuelling: processedRefuelling }, true);
   }
 

@@ -1,92 +1,45 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
+import { FlatList } from 'react-native';
 import {
   Container,
-  Content,
   Spinner,
+  Fab,
+  Icon,
 } from 'native-base';
-import firebase from 'react-native-firebase';
-import NavigateableComponent from '../../../components/NavigateableComponent';
-import VehicleCard from '../../components/VehicleCard';
-import { ROUTE_NAME as NEW_VEHICLE_ROUTE } from '../NewVehicle/NewVehicle';
+import I18n from '../../../../i18n';
+import VehicleCard from './components/VehicleCard';
 
 export const ROUTE_NAME = 'SelectVehicle';
 
-export default class SelectVehicle extends NavigateableComponent {
-  static navigationOptions = {
-    title: 'Vehicles'
-  };
+const SelectVehicle = ({ screenProps: {
+  loading,
+  reload,
+  vehicles,
+  onSelectVehicle,
+  goToNewVehicle,
+  loadImage,
+} }) => (
+  <Container>
+    <FlatList
+      data={vehicles}
+      renderItem={({ item }) => (
+        <VehicleCard
+          key={item.key}
+          vehicle={item}
+          onPress={() => onSelectVehicle(item.key)}
+        />
+      )}
+      refreshing={loading}
+      onRefresh={reload}
+    />
+    <Fab onPress={goToNewVehicle}>
+      <Icon name="add" />
+    </Fab>
+  </Container>
+);
 
-  constructor() {
-    super();
-    this.vehiclesRef = firebase
-      .firestore()
-      .collection('vehicles')
-      .where('users.3eqzPiYvwYNHvQLHIm2BaO7jUTs1', '==', true);
+SelectVehicle.navigationOptions = {
+  title: I18n.t('screenTitles.selectVehicle'),
+};
 
-    this.state = {
-      vehicles: [],
-      loading: true,
-    }
-  }
-
-  componentDidMount() {
-    this.unsubscribeVehicles = this.vehiclesRef.onSnapshot(snapshot => {
-      const vehicles = [];
-      snapshot.forEach(vehicleRef => {
-        vehicles.push({
-            ...vehicleRef.data(),
-            id: vehicleRef.id,
-          }
-        )
-      });
-
-      this.setState({
-        vehicles,
-        loading: false,
-      });
-    }, err => console.warn(err));
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeVehicles();
-  }
-
-  selectVehicle = async (key) => {
-    const { onSelectVehicle } = this.props.screenProps;
-    onSelectVehicle(key);
-  };
-
-  render() {
-    const {
-      loading,
-      vehicles,
-    } = this.state;
-
-    if (loading) {
-      return (
-        <Spinner/>
-      )
-    }
-
-    return (
-      <Container>
-        <Content>
-          {vehicles.map(vehicle => (
-            <VehicleCard
-              key={vehicle.id}
-              vehicle={vehicle}
-              onPress={() => this.selectVehicle(vehicle.id)}
-            />
-          ))}
-          <VehicleCard
-            key="add-new"
-            icon="plus"
-            vehicle={{ name: 'Add New Vehicle' }}
-            onPress={() => this.goTo(NEW_VEHICLE_ROUTE)}
-          />
-        </Content>
-      </Container>
-    )
-  }
-}
+export default SelectVehicle;

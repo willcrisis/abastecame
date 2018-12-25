@@ -13,7 +13,7 @@ export default class AddRefuelling extends Component {
 
   state = {
     refuelling: {
-      fuel: 'diesel',
+      fuel: '',
       date: new Date(),
       fullTank: true,
       odometer: '',
@@ -22,6 +22,7 @@ export default class AddRefuelling extends Component {
       total: '',
       notes: '',
     },
+    isSaving: false,
   };
 
   updateField = field => value => this.setState(({ refuelling }) => {
@@ -74,11 +75,18 @@ export default class AddRefuelling extends Component {
     total: this.totalRef.getRawValue(),
   });
 
-  save = async () => {
-    const { refuelling } = this.state;
-    if (!this.validateRefuelling(refuelling)) return;
-    const saveRefuelling = this.props.navigation.getParam('saveRefuelling');
-    saveRefuelling(this.processRefuelling(refuelling));
+  save = () => {
+    this.setState({ isSaving: true }, async () => {
+      const { refuelling } = this.state;
+      if (!this.validateRefuelling(refuelling)) {
+        this.setState({ isSaving: false });
+        return;
+      };
+      const saveRefuelling = this.props.navigation.getParam('saveRefuelling');
+      await saveRefuelling(this.processRefuelling(refuelling), () => {
+        this.setState({ isSaving: false });
+      });
+    });
   };
 
   setRef = (refName, ref) => {
@@ -86,15 +94,18 @@ export default class AddRefuelling extends Component {
   }
 
   render() {
-    const { refuelling } = this.state;
+    const { refuelling, isSaving } = this.state;
+    const { navigation: { getParam } } = this.props;
 
     return (
       <AddRefuellingForm
         {...this.props}
+        fuels={getParam('fuels')}
         updateField={this.updateField}
         refuelling={refuelling}
         save={this.save}
         setRef={this.setRef}
+        isSaving={isSaving}
       />
     )
   }

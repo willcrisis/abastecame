@@ -3,6 +3,16 @@ const pt = {
     refuellings: 'Abastecimentos',
     newRefuelling: 'Novo Abastecimento',
     refuellingDetails: 'Detalhes',
+    selectVehicle: 'Veículos',
+    newVehicle: 'Novo Veículo',
+  },
+  vehicle: {
+    name: 'Nome',
+    model: 'Modelo',
+    manufacturer: 'Marca',
+    fuels: 'Combustíveis',
+    image: 'Imagem',
+    required: 'Preencha os seguintes campos: %s',
   },
   refuelling: {
     date: 'Data',
