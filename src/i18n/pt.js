@@ -13,6 +13,8 @@ const pt = {
     connectWith: 'ou entre com',
     google: 'Google',
     facebook: 'Facebook',
+    dontHaveAnAccount: 'Não tem uma conta?',
+    register: 'Registre-se',
   },
   vehicle: {
     name: 'Nome',

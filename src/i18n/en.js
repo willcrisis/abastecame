@@ -13,6 +13,8 @@ const en = {
     connectWith: 'or connect with',
     google: 'Google',
     facebook: 'Facebook',
+    dontHaveAnAccount: 'Don\'t have an account? Register',
+    register: 'Sign up',
   },
   vehicle: {
     name: 'Name',

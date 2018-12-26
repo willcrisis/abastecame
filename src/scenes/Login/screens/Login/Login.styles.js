@@ -19,13 +19,14 @@ const styles = StyleSheet.create({
   form: {
     flex: 1,
     justifyContent: 'center',
-    marginBottom: 30,
+    marginBottom: 5,
   },
   content: {
     height: '100%',
   },
   forgotPassword: {
     textAlign: 'right',
+    textDecorationLine: 'underline'
   },
   enterWith: {
     textAlign: 'center',

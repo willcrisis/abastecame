@@ -48,6 +48,12 @@ const LoginForm = () => (
               <Text>{I18n.t('login.facebook')}</Text>
             </Button>
           </View>
+          <Text />
+          <Text style={styles.enterWith}>{I18n.t('login.dontHaveAnAccount')}</Text>
+          <Text />
+          <Button light onPress={() => null} full>
+            <Text>{I18n.t('login.register')}</Text>
+          </Button>
         </Form>
       </Content>
     </Container>
