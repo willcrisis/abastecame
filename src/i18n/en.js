@@ -22,7 +22,6 @@ const en = {
     manufacturer: 'Manufacturer',
     fuels: 'Fuels',
     image: 'Image',
-    required: 'Please fill the following fields: %s',
   },
   refuelling: {
     date: 'Date',
@@ -37,7 +36,6 @@ const en = {
     distance: 'Distance',
     averageDailyDistance: 'Average Daily Distance',
     costPerKm: 'Cost per Km',
-    required: 'Please fill the following fields: %s',
   },
   dateInput: {
     title: 'Pick a date'
@@ -50,6 +48,14 @@ const en = {
     confirm: 'Confirm',
     cancel: 'Cancel',
     login: 'Login'
+  },
+  validation: {
+    required: 'Please fill the following fields: %s',
+  },
+  firebase: {
+    'auth/user-not-found': 'Wrong email or password',
+    'auth/invalid-email': 'Invalid email address',
+    'auth/user-disabled': 'Your account was disabled. Please contact us via email.',
   }
 }
 

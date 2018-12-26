@@ -14,7 +14,12 @@ import styles from './Login.styles';
 import background from '../../../../../assets/login-background.jpg';
 import logo from '../../../../../assets/logo.png'
 
-const LoginForm = () => (
+const LoginForm = ({
+  email,
+  password,
+  updateField,
+  login,
+}) => (
   <ImageBackground source={background} style={styles.background}>
     <Container style={styles.container}>
       <Content padder contentContainerStyle={styles.content}>
@@ -23,16 +28,23 @@ const LoginForm = () => (
             <Image source={logo} />
           </View>
           <TextInput
-            style={styles.field}
             label={I18n.t('login.email')}
+            value={email}
+            keyboardType="email-address"
+            textContentType="username"
+            onChangeText={updateField('email')}
           />
           <TextInput
             label={I18n.t('login.password')}
+            value={password}
+            onChangeText={updateField('password')}
+            textContentType="password"
+            secureTextEntry
           />
           <Text />
           <Text style={styles.forgotPassword}>{I18n.t('login.forgotPassword')}</Text>
           <Text />
-          <Button onPress={() => null} full>
+          <Button onPress={login} full>
             <Text>{I18n.t('actions.login')}</Text>
           </Button>
           <Text />
