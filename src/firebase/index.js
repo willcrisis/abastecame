@@ -2,6 +2,9 @@ import firebase from 'react-native-firebase';
 import I18n from '../i18n';
 
 const firestore = firebase.firestore();
+const authProviders = {
+  GoogleAuthProvider: firebase.auth.GoogleAuthProvider,
+};
 const auth = firebase.auth();
 const storage = firebase.storage();
 
@@ -43,6 +46,7 @@ const currentUser = () => currentUserInstance;
 
 export default {
   firestore,
+  authProviders,
   auth,
   storage,
   init,

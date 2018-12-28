@@ -30,6 +30,11 @@ class Login extends Component {
     return login(email, password);
   }
 
+  loginWithGoogle = () => {
+    const { loginOrRegisterWithGoogle } = this.props.screenProps;
+    loginOrRegisterWithGoogle();
+  }
+
   render() {
     const { email, password } = this.state;
     return (
@@ -38,6 +43,7 @@ class Login extends Component {
         password={password}
         updateField={this.updateField}
         login={this.login}
+        loginWithGoogle={this.loginWithGoogle}
       />
     )
   }

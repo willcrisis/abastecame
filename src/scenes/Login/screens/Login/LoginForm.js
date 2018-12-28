@@ -19,6 +19,7 @@ const LoginForm = ({
   password,
   updateField,
   login,
+  loginWithGoogle
 }) => (
   <ImageBackground source={background} style={styles.background}>
     <Container style={styles.container}>
@@ -51,7 +52,7 @@ const LoginForm = ({
           <Text style={styles.enterWith}>{I18n.t('login.connectWith')}</Text>
           <Text />
           <View style={styles.socialLogin}>
-            <Button danger onPress={() => null} style={styles.socialButton} full>
+            <Button danger onPress={loginWithGoogle} style={styles.socialButton} full>
               <Icon type="FontAwesome" name="google" />
               <Text>{I18n.t('login.google')}</Text>
             </Button>

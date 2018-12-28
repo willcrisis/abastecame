@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Toast } from 'native-base';
+import { GoogleSignin } from 'react-native-google-signin';
 import I18n from '../../i18n';
 import firebase from '../../firebase';
 
@@ -30,11 +31,18 @@ class Login extends Component {
     }
   }
 
+  loginOrRegisterWithGoogle = async () => {
+    const { idToken, accessToken } = await GoogleSignin.signIn();
+    const credential = firebase.authProviders.GoogleAuthProvider.credential(idToken, accessToken);
+    const userData = await firebase.auth.signInWithCredential(credential);
+  }
+
   render() {
     return (
       <LoginStack
         screenProps={{
-          login: this.login
+          login: this.login,
+          loginOrRegisterWithGoogle: this.loginOrRegisterWithGoogle,
         }}
       />
     );
