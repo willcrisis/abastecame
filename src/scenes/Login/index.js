@@ -18,6 +18,11 @@ const LoginStack = createStackNavigator(
 );
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.usersRef = firebase.firestore.collection('users');
+  }
+
   login = async (email, password) => {
     try {
       await firebase.auth.signInWithEmailAndPassword(email, password);
@@ -34,7 +39,28 @@ class Login extends Component {
   loginOrRegisterWithGoogle = async () => {
     const { idToken, accessToken } = await GoogleSignin.signIn();
     const credential = firebase.authProviders.GoogleAuthProvider.credential(idToken, accessToken);
-    const userData = await firebase.auth.signInWithCredential(credential);
+    const { user, additionalUserInfo: {
+      isNewUser,
+      profile: {
+        name,
+        picture,
+      },
+    } } = await firebase.auth.signInWithCredential(credential);
+    if (isNewUser) {
+      await this.handleUserCreation(user, name, picture);
+    }
+  }
+
+  handleUserCreation = (user, displayName, photoUrl) => {
+    return Promise.all([
+      this.usersRef.doc(user.uid).set({
+        vehicles: [],
+      }),
+      user.updateProfile({
+        displayName,
+        photoUrl,
+      })
+    ]);
   }
 
   render() {
