@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Toast } from 'native-base';
+import { GoogleSignin } from 'react-native-google-signin';
 import I18n from '../../i18n';
 import firebase from '../../firebase';
 
@@ -17,6 +18,11 @@ const LoginStack = createStackNavigator(
 );
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.usersRef = firebase.firestore.collection('users');
+  }
+
   login = async (email, password) => {
     try {
       await firebase.auth.signInWithEmailAndPassword(email, password);
@@ -30,11 +36,39 @@ class Login extends Component {
     }
   }
 
+  loginOrRegisterWithGoogle = async () => {
+    const { idToken, accessToken } = await GoogleSignin.signIn();
+    const credential = firebase.authProviders.GoogleAuthProvider.credential(idToken, accessToken);
+    const { user, additionalUserInfo: {
+      isNewUser,
+      profile: {
+        name,
+        picture,
+      },
+    } } = await firebase.auth.signInWithCredential(credential);
+    if (isNewUser) {
+      await this.handleUserCreation(user, name, picture);
+    }
+  }
+
+  handleUserCreation = (user, displayName, photoUrl) => {
+    return Promise.all([
+      this.usersRef.doc(user.uid).set({
+        vehicles: [],
+      }),
+      user.updateProfile({
+        displayName,
+        photoUrl,
+      })
+    ]);
+  }
+
   render() {
     return (
       <LoginStack
         screenProps={{
-          login: this.login
+          login: this.login,
+          loginOrRegisterWithGoogle: this.loginOrRegisterWithGoogle,
         }}
       />
     );

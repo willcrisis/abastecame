@@ -1,7 +1,7 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { Root, Spinner } from 'native-base';
-
+import { GoogleSignin } from 'react-native-google-signin';
 import MainScene from './src/scenes/Main';
 import SelectVehicleScene from './src/scenes/VehicleSelection';
 import LoginScene from './src/scenes/Login';
@@ -16,6 +16,7 @@ export default class App extends React.Component {
   };
 
   async componentDidMount() {
+    GoogleSignin.configure();
     firebase.init();
     // firebase.auth.signOut();
     this.unsubscribeAuth = firebase.auth.onAuthStateChanged(async (user) => {
