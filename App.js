@@ -4,6 +4,7 @@ import { Root, Spinner } from 'native-base';
 
 import MainScene from './src/scenes/Main';
 import SelectVehicleScene from './src/scenes/VehicleSelection';
+import LoginScene from './src/scenes/Login';
 
 import firebase from './src/firebase';
 
@@ -11,19 +12,31 @@ export default class App extends React.Component {
   state = {
     loading: true,
     selectedVehicle: '',
+    user: null,
   };
 
   async componentDidMount() {
-    await AsyncStorage.removeItem('vehicleKey');
     firebase.init();
-    const selectedVehicle = await AsyncStorage.getItem('vehicleKey');
-    this.setState({
-      selectedVehicle,
-      loading: false,
+    // firebase.auth.signOut();
+    this.unsubscribeAuth = firebase.auth.onAuthStateChanged(async (user) => {
+      let selectedVehicle = '';
+      if (user) {
+        firebase.initData();
+        selectedVehicle = await AsyncStorage.getItem('vehicleKey');
+      } else {
+        firebase.stopData();
+        await AsyncStorage.removeItem('vehicleKey');
+      }
+      this.setState({
+        loading: false,
+        selectedVehicle,
+        user,
+      });
     });
   }
 
   componentWillUnmount() {
+    this.unsubscribeAuth();
     firebase.destroy();
   }
 
@@ -39,12 +52,20 @@ export default class App extends React.Component {
     const {
       loading,
       selectedVehicle,
+      user,
     } = this.state;
 
     if (loading)
       return (
         <Spinner />
       );
+
+    if (!user)
+        return (
+          <Root>
+            <LoginScene />
+          </Root>
+        )
 
     if (!selectedVehicle)
       return (

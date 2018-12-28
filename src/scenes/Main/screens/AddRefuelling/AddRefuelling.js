@@ -60,7 +60,7 @@ export default class AddRefuelling extends Component {
 
     if (!isValid) {
       Toast.show({
-        text: I18n.t('refuelling.required', failures.map(field => I18n.t(`refuelling.${field}`)).join(', ')),
+        text: I18n.t('validation.required', failures.map(field => I18n.t(`refuelling.${field}`)).join(', ')),
         duration: 5000,
       });
     }

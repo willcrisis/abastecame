@@ -6,13 +6,22 @@ const pt = {
     selectVehicle: 'Veículos',
     newVehicle: 'Novo Veículo',
   },
+  login: {
+    email: 'Email',
+    password: 'Senha',
+    forgotPassword: 'Esqueceu a senha?',
+    connectWith: 'ou entre com',
+    google: 'Google',
+    facebook: 'Facebook',
+    dontHaveAnAccount: 'Não tem uma conta?',
+    register: 'Registre-se',
+  },
   vehicle: {
     name: 'Nome',
     model: 'Modelo',
     manufacturer: 'Marca',
     fuels: 'Combustíveis',
     image: 'Imagem',
-    required: 'Preencha os seguintes campos: %s',
   },
   refuelling: {
     date: 'Data',
@@ -27,7 +36,6 @@ const pt = {
     distance: 'Distância',
     averageDailyDistance: 'Média Diária de Km',
     costPerKm: 'Custo por Km',
-    required: 'Preencha os seguintes campos: %s',
   },
   dateInput: {
     title: 'Selecione uma data'
@@ -39,6 +47,15 @@ const pt = {
     save: 'Salvar',
     confirm: 'Confirmar',
     cancel: 'Cancelar',
+    login: 'Login'
+  },
+  validation: {
+    required: 'Preencha os seguintes campos: %s',
+  },
+  firebase: {
+    'auth/user-not-found': 'Verifique o email e senha informados.',
+    'auth/invalid-email': 'Email inválido.',
+    'auth/user-disabled': 'Sua conta foi desabilitada. Por favor ente em contato por email.',
   }
 }
 

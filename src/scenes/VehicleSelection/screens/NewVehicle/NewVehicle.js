@@ -37,7 +37,7 @@ export default class NewVehicle extends Component {
 
     if (!isValid) {
       Toast.show({
-        text: I18n.t('vehicle.required', failures.map(field => I18n.t(`vehicle.${field}`)).join(', ')),
+        text: I18n.t('validate.required', failures.map(field => I18n.t(`vehicle.${field}`)).join(', ')),
         duration: 5000,
       });
     }
