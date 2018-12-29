@@ -15,6 +15,7 @@ const en = {
     facebook: 'Facebook',
     dontHaveAnAccount: 'Don\'t have an account? Register',
     register: 'Sign up',
+    genericError: 'Unable to perform your login. Try again in a few minutes. If the error persist, please email us.'
   },
   vehicle: {
     name: 'Name',
@@ -56,6 +57,8 @@ const en = {
     'auth/user-not-found': 'Wrong email or password',
     'auth/invalid-email': 'Invalid email address',
     'auth/user-disabled': 'Your account was disabled. Please contact us via email.',
+    'auth/account-exists-with-different-credential': 'You already have an account with another login method. Try logging in with another option and then link your acount to this method.',
+    'auth/wrong-password': 'Wrong email or password',
   }
 }
 

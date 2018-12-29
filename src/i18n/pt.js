@@ -15,6 +15,7 @@ const pt = {
     facebook: 'Facebook',
     dontHaveAnAccount: 'Não tem uma conta?',
     register: 'Registre-se',
+    genericError: 'Houve um erro ao efetuar seu login. Tente novamente em alguns minutos. Se o erro persistir, entre em contato.'
   },
   vehicle: {
     name: 'Nome',
@@ -56,6 +57,8 @@ const pt = {
     'auth/user-not-found': 'Verifique o email e senha informados.',
     'auth/invalid-email': 'Email inválido.',
     'auth/user-disabled': 'Sua conta foi desabilitada. Por favor ente em contato por email.',
+    'auth/account-exists-with-different-credential': 'Você já possui uma conta com outro método de login. Tente logar-se com outra opção, e então vincule sua conta a este método de login.',
+    'auth/wrong-password': 'Verifique o email e senha informados.',
   }
 }
 
