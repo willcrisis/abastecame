@@ -35,6 +35,11 @@ class Login extends Component {
     loginOrRegisterWithGoogle();
   }
 
+  loginWithFacebook = () => {
+    const { loginOrRegisterWithFacebook } = this.props.screenProps;
+    loginOrRegisterWithFacebook();
+  }
+
   render() {
     const { email, password } = this.state;
     return (
@@ -44,6 +49,7 @@ class Login extends Component {
         updateField={this.updateField}
         login={this.login}
         loginWithGoogle={this.loginWithGoogle}
+        loginWithFacebook={this.loginWithFacebook}
       />
     )
   }

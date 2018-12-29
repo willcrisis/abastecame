@@ -19,7 +19,8 @@ const LoginForm = ({
   password,
   updateField,
   login,
-  loginWithGoogle
+  loginWithGoogle,
+  loginWithFacebook,
 }) => (
   <ImageBackground source={background} style={styles.background}>
     <Container style={styles.container}>
@@ -56,7 +57,7 @@ const LoginForm = ({
               <Icon type="FontAwesome" name="google" />
               <Text>{I18n.t('login.google')}</Text>
             </Button>
-            <Button info onPress={() => null} style={styles.socialButton} full>
+            <Button info onPress={loginWithFacebook} style={styles.socialButton} full>
               <Icon type="FontAwesome" name="facebook" />
               <Text>{I18n.t('login.facebook')}</Text>
             </Button>

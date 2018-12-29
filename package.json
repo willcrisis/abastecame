@@ -28,6 +28,7 @@
     "prop-types": "^15.6.2",
     "react": "16.5.0",
     "react-native": "0.57.1",
+    "react-native-fbsdk": "^0.8.0",
     "react-native-firebase": "^5.1.1",
     "react-native-google-signin": "^1.0.2",
     "react-native-masked-text": "^1.9.2",

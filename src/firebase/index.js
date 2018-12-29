@@ -4,6 +4,7 @@ import I18n from '../i18n';
 const firestore = firebase.firestore();
 const authProviders = {
   GoogleAuthProvider: firebase.auth.GoogleAuthProvider,
+  FacebookAuthProvider: firebase.auth.FacebookAuthProvider,
 };
 const auth = firebase.auth();
 const storage = firebase.storage();
