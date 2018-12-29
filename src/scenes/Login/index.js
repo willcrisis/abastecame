@@ -87,7 +87,6 @@ class Login extends Component {
   }
 
   handleExternalError = err => {
-    console.warn(err);
     Toast.show({
       text: I18n.t('login.genericError'),
       duration: 5000,
