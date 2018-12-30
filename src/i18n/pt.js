@@ -11,11 +11,21 @@ const pt = {
     password: 'Senha',
     forgotPassword: 'Esqueceu a senha?',
     connectWith: 'ou entre com',
+    dontHaveAnAccount: 'Não tem uma conta?',
+    genericError: 'Houve um erro ao efetuar seu login. Tente novamente em alguns minutos. Se o erro persistir, entre em contato.',
+  },
+  register: {
+    name: 'Nome',
+    email: 'Email',
+    password: 'Senha',
+    confirmation: 'Confirme a senha',
+    registerWith: 'ou cadastre-se com',
+    alreadyHaveAnAccount: 'Já tem uma conta?',
+    passwordsMustMatch: 'A senha e a confirmação de senha devem ser iguais.'
+  },
+  social: {
     google: 'Google',
     facebook: 'Facebook',
-    dontHaveAnAccount: 'Não tem uma conta?',
-    register: 'Registre-se',
-    genericError: 'Houve um erro ao efetuar seu login. Tente novamente em alguns minutos. Se o erro persistir, entre em contato.'
   },
   vehicle: {
     name: 'Nome',
@@ -48,7 +58,8 @@ const pt = {
     save: 'Salvar',
     confirm: 'Confirmar',
     cancel: 'Cancelar',
-    login: 'Login'
+    login: 'Login',
+    register: 'Cadastre-se'
   },
   validation: {
     required: 'Preencha os seguintes campos: %s',
@@ -57,8 +68,10 @@ const pt = {
     'auth/user-not-found': 'Verifique o email e senha informados.',
     'auth/invalid-email': 'Email inválido.',
     'auth/user-disabled': 'Sua conta foi desabilitada. Por favor ente em contato por email.',
-    'auth/account-exists-with-different-credential': 'Você já possui uma conta com outro método de login. Tente logar-se com outra opção, e então vincule sua conta a este método de login.',
+    'auth/account-exists-with-different-credential': 'Você já possui uma conta com este email. Tente logar com um desses métodos: %s',
     'auth/wrong-password': 'Verifique o email e senha informados.',
+    'auth/email-already-in-use': 'Este email já está sendo usado por outra conta.',
+    'auth/weak-password': 'Você informou uma senha fraca. Tente adicionar algumas letras maiúsculas, caracteres especiais ou números a ela.',
   }
 }
 

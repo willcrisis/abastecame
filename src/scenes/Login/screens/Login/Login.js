@@ -30,26 +30,22 @@ class Login extends Component {
     return login(email, password);
   }
 
-  loginWithGoogle = () => {
-    const { loginOrRegisterWithGoogle } = this.props.screenProps;
-    loginOrRegisterWithGoogle();
-  }
-
-  loginWithFacebook = () => {
-    const { loginOrRegisterWithFacebook } = this.props.screenProps;
-    loginOrRegisterWithFacebook();
-  }
-
   render() {
     const { email, password } = this.state;
+    const {
+      loginWithGoogle,
+      loginWithFacebook,
+      goToRegister
+    } = this.props.screenProps;
     return (
       <LoginForm
         email={email}
         password={password}
         updateField={this.updateField}
         login={this.login}
-        loginWithGoogle={this.loginWithGoogle}
-        loginWithFacebook={this.loginWithFacebook}
+        loginWithGoogle={loginWithGoogle}
+        loginWithFacebook={loginWithFacebook}
+        goToRegister={goToRegister}
       />
     )
   }

@@ -11,11 +11,21 @@ const en = {
     password: 'Password',
     forgotPassword: 'Forgot password?',
     connectWith: 'or connect with',
+    dontHaveAnAccount: 'Don\'t have an account? Register',
+    genericError: 'Unable to perform your login. Try again in a few minutes. If the error persist, please email us.',
+  },
+  register: {
+    name: 'Name',
+    email: 'Email',
+    password: 'Password',
+    confirmation: 'Password Confirmation',
+    registerWith: 'or register with',
+    alreadyHaveAnAccount: 'Already have an account?',
+    passwordsMustMatch: 'Password and Password Confirmation must match.'
+  },
+  social: {
     google: 'Google',
     facebook: 'Facebook',
-    dontHaveAnAccount: 'Don\'t have an account? Register',
-    register: 'Sign up',
-    genericError: 'Unable to perform your login. Try again in a few minutes. If the error persist, please email us.'
   },
   vehicle: {
     name: 'Name',
@@ -48,7 +58,8 @@ const en = {
     save: 'Save',
     confirm: 'Confirm',
     cancel: 'Cancel',
-    login: 'Login'
+    login: 'Login',
+    register: 'Sign up',
   },
   validation: {
     required: 'Please fill the following fields: %s',
@@ -57,9 +68,11 @@ const en = {
     'auth/user-not-found': 'Wrong email or password',
     'auth/invalid-email': 'Invalid email address',
     'auth/user-disabled': 'Your account was disabled. Please contact us via email.',
-    'auth/account-exists-with-different-credential': 'You already have an account with another login method. Try logging in with another option and then link your acount to this method.',
+    'auth/account-exists-with-different-credential': 'You already have an account with this email address. Try logging in with one of these methods: %s',
     'auth/wrong-password': 'Wrong email or password',
-  }
+    'auth/email-already-in-use': 'This email is already in use for another account.',
+    'auth/weak-password': 'You provided a weak password. Try add some upper case, special characters or numbers to it.',
+  },
 }
 
 export default en;

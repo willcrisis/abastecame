@@ -14,14 +14,13 @@ import styles from '../../styles/styles';
 import background from '../../../../../assets/login-background.jpg';
 import logo from '../../../../../assets/logo.png'
 
-const LoginForm = ({
-  email,
-  password,
+const RegisterForm = ({
+  user,
   updateField,
-  login,
-  loginWithGoogle,
-  loginWithFacebook,
-  goToRegister,
+  register,
+  registerWithGoogle,
+  registerWithFacebook,
+  goToLogin,
 }) => (
   <ImageBackground source={background} style={styles.background}>
     <Container style={styles.container}>
@@ -31,43 +30,53 @@ const LoginForm = ({
             <Image source={logo} />
           </View>
           <TextInput
-            label={I18n.t('login.email')}
-            value={email}
+            label={I18n.t('register.name')}
+            value={user.name}
+            onChangeText={updateField('name')}
+          />
+          <TextInput
+            label={I18n.t('register.email')}
+            value={user.email}
             keyboardType="email-address"
             textContentType="username"
             onChangeText={updateField('email')}
           />
           <TextInput
-            label={I18n.t('login.password')}
-            value={password}
+            label={I18n.t('register.password')}
+            value={user.password}
             onChangeText={updateField('password')}
             textContentType="password"
             secureTextEntry
           />
+          <TextInput
+            label={I18n.t('register.confirmation')}
+            value={user.confirmation}
+            onChangeText={updateField('confirmation')}
+            textContentType="password"
+            secureTextEntry
+          />
           <Text />
-          <Text style={styles.forgotPassword}>{I18n.t('login.forgotPassword')}</Text>
-          <Text />
-          <Button onPress={login} full>
-            <Text>{I18n.t('actions.login')}</Text>
+          <Button onPress={register} full>
+            <Text>{I18n.t('actions.register')}</Text>
           </Button>
           <Text />
-          <Text style={styles.enterWith}>{I18n.t('login.connectWith')}</Text>
+          <Text style={styles.enterWith}>{I18n.t('register.registerWith')}</Text>
           <Text />
           <View style={styles.socialLogin}>
-            <Button danger onPress={loginWithGoogle} style={styles.socialButton} full>
+            <Button danger onPress={registerWithGoogle} style={styles.socialButton} full>
               <Icon type="FontAwesome" name="google" />
               <Text>{I18n.t('social.google')}</Text>
             </Button>
-            <Button info onPress={loginWithFacebook} style={styles.socialButton} full>
+            <Button info onPress={registerWithFacebook} style={styles.socialButton} full>
               <Icon type="FontAwesome" name="facebook" />
               <Text>{I18n.t('social.facebook')}</Text>
             </Button>
           </View>
           <Text />
-          <Text style={styles.enterWith}>{I18n.t('login.dontHaveAnAccount')}</Text>
+          <Text style={styles.enterWith}>{I18n.t('register.alreadyHaveAnAccount')}</Text>
           <Text />
-          <Button light onPress={goToRegister} full>
-            <Text>{I18n.t('actions.register')}</Text>
+          <Button light onPress={goToLogin} full>
+            <Text>{I18n.t('actions.login')}</Text>
           </Button>
         </Form>
       </Content>
@@ -75,4 +84,4 @@ const LoginForm = ({
   </ImageBackground>
 );
 
-export default LoginForm;
+export default RegisterForm;
