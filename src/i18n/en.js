@@ -33,7 +33,7 @@ const en = {
     manufacturer: 'Manufacturer',
     fuels: 'Fuels',
     image: 'Image',
-    noRefuellings: 'You still don\'t have any vehicle. Use the button below to add your first one.',
+    noVehicles: 'You still don\'t have any vehicle. Use the button below to add your first one.',
   },
   refuelling: {
     date: 'Date',
@@ -48,7 +48,7 @@ const en = {
     distance: 'Distance',
     averageDailyDistance: 'Average Daily Distance',
     costPerKm: 'Cost per Km',
-    noVehicles: 'You still didn\'t refuel. Use the button below to add your first refuelling.',
+    noRefuellings: 'You still didn\'t refuel. Use the button below to add your first refuelling.',
   },
   dateInput: {
     title: 'Pick a date'
