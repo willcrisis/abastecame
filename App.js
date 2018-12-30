@@ -18,7 +18,6 @@ export default class App extends React.Component {
   async componentDidMount() {
     GoogleSignin.configure();
     firebase.init();
-    // firebase.auth.signOut();
     this.unsubscribeAuth = firebase.auth.onAuthStateChanged(async (user) => {
       let selectedVehicle = '';
       if (user) {
