@@ -48,6 +48,7 @@ const pt = {
     distance: 'Distância',
     averageDailyDistance: 'Média Diária de Km',
     costPerKm: 'Custo por Km',
+    noRefuellings: 'Você ainda não abasteceu seu veículo. Use o botão abaixo para cadastrar seu primeiro abastecimento.',
   },
   dateInput: {
     title: 'Selecione uma data'
