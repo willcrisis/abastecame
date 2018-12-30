@@ -33,6 +33,7 @@ const pt = {
     manufacturer: 'Marca',
     fuels: 'Combustíveis',
     image: 'Imagem',
+    noVehicles: 'Você ainda não possui veículos cadastrados. Use o botão abaixo para cadastrar seu primeiro veículo.',
   },
   refuelling: {
     date: 'Data',

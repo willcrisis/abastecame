@@ -33,6 +33,7 @@ const en = {
     manufacturer: 'Manufacturer',
     fuels: 'Fuels',
     image: 'Image',
+    noVehicles: 'You still don\'t have any vehicle. Use the button below to add your first one.',
   },
   refuelling: {
     date: 'Date',
