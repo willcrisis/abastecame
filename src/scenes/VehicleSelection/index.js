@@ -44,7 +44,7 @@ class VehicleSelection extends Component {
     this.setState({ loadingVehicles: true }, async () => {
       let vehicles = await Promise.all(refs.map(async (vehicleID) => {
         const snapshot = await firebase.firestore.doc(`vehicles/${vehicleID}`).get();
-        const imageUrl = await this.loadImage(snapshot.id);
+        const imageUrl = await firebase.loadImage(snapshot.id);
         return {
           ...snapshot.data(),
           key: snapshot.id,
@@ -58,17 +58,6 @@ class VehicleSelection extends Component {
       });
     })
   }
-
-  loadImage = async (key) => {
-    const image = this.storageRef.ref(`${key}.jpg`);
-    try {
-      const imageUrl = await image.getDownloadURL();
-      return imageUrl;
-    } catch(err) {
-      if (err.code !== 'storage/object-not-found') console.warn(err);
-      return null;
-    }
-  };
 
   saveVehicle = async (vehicle, callback) => {
     const newVehicleRef = await this.vehiclesRef.add(vehicle);

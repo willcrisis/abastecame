@@ -6,7 +6,7 @@ import {
   Card,
   CardItem,
 } from 'native-base';
-import ImagePlaceholder from './ImagePlaceholder';
+import ImagePlaceholder from '../../../../components/ImagePlaceholder';
 import styles from './VehicleCard.styles';
 
 const VehicleCard = ({

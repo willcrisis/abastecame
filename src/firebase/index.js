@@ -1,11 +1,11 @@
 import firebase from 'react-native-firebase';
 import I18n from '../i18n';
 
-const firestore = firebase.firestore();
 const authProviders = {
   GoogleAuthProvider: firebase.auth.GoogleAuthProvider,
   FacebookAuthProvider: firebase.auth.FacebookAuthProvider,
 };
+const firestore = firebase.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
 
@@ -42,6 +42,17 @@ const destroy = () => {
 
 }
 
+loadImage = async (key) => {
+  const image = storage.ref(`${key}.jpg`);
+  try {
+    const imageUrl = await image.getDownloadURL();
+    return imageUrl;
+  } catch(err) {
+    if (err.code !== 'storage/object-not-found') console.warn(err);
+    return null;
+  }
+};
+
 const fuels = () => fuelList;
 const currentUser = () => currentUserInstance;
 
@@ -56,4 +67,5 @@ export default {
   destroy,
   fuels,
   currentUser,
+  loadImage,
 }
