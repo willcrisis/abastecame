@@ -18,7 +18,7 @@ const currentLanguage = I18n.getCurrentLanguage();
 
 export default (date, formatStr) => {
   const locale = locales[currentLanguage] || locales.en;
-  return format(date, formatStr || locale.formatStr, {
+  return format(new Date(date.seconds * 1000), formatStr || locale.formatStr, {
     locale: locale.locale,
   })
 }
