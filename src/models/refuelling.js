@@ -1,3 +1,4 @@
+import firebaseDateToDate from '../common/dateFns/firebaseDateToDate';
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
 
 // Refuelling rules:
@@ -17,7 +18,9 @@ const processRefuellingList = (acc, refuelling, index, array) => {
   let extendedData;
   if (nextRefuelling) {
     const distance = nextRefuelling.odometer - refuelling.odometer;
-    const days = differenceInCalendarDays(nextRefuelling.date, refuelling.date);
+    const nextRefuellingDate = firebaseDateToDate(nextRefuelling.date);
+    const refuellingDate = firebaseDateToDate(refuelling.date);
+    const days = differenceInCalendarDays(nextRefuellingDate, refuellingDate);
     const dailyDistance = distance / days;
 
     let distancePerLiter = 0;
