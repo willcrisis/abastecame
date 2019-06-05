@@ -2,6 +2,7 @@ import format from 'date-fns/format';
 import en from 'date-fns/locale/en'
 import pt from 'date-fns/locale/pt'
 import I18n from '../../i18n';
+import firebaseDateToDate from './firebaseDateToDate';
 
 const locales = {
   en: {
@@ -19,7 +20,7 @@ const currentLanguage = I18n.getCurrentLanguage();
 export default (date, formatStr) => {
   const locale = locales[currentLanguage] || locales.en;
   const dateToFormat = date.seconds
-    ? new Date(date.seconds * 1000)
+    ? firebaseDateToDate(date)
     : date;
 
   return format(dateToFormat, formatStr || locale.formatStr, {
